@@ -1,5 +1,3 @@
-import { start } from 'repl';
-
 let webpack = require('webpack');
 
 const LiveReloadPlugin = require('webpack-livereload-plugin');
