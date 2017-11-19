@@ -1,6 +1,7 @@
 import Image from '../../lib/Image';
 import Bullet from './Bullet';
 import Discharge from './Discharge';
+import Explosion from './Explosion';
 
 const superUpdate = Image.prototype.update;
 //const superDraw = Image.prototype.draw;
@@ -13,23 +14,22 @@ class Barrel extends Image {
     }
 
     create() {
-        this.speed = 2550;
+        this.barrelLength = 35;
 
-        this.barrelLength = 70;
-
-        this.body.setAnchor(0.5, 0.3);
+        this.body.setAnchor(0.3, 0.5);
 
         this.setIndex(10);
 
         this.createDischarge();
 
-        this.preAllocateBullets(10);
+        this.preAllocateBullets(500);
+        this.preAllocateExplosion(500);
     }
 
     update(dt) {
         superUpdate.call(this, dt);
 
-        this.body.rotateByMouse(90, true, 0.02);
+        this.body.rotateByMouse(0, true, 0.02);
         this.game.mouse.trigger(null, false, this.shot, false);
     }
 
@@ -37,22 +37,15 @@ class Barrel extends Image {
         this.game.VAR.discharge.use(this);
 
         const bullet = this.game.ARR.bulletGroup.spawn();
-
+       
         if (bullet) {
-            bullet.lifeTime = 17;
-            const angle = this.body.angle + bullet.toAngle;
-            bullet.body.angle = angle;
-            bullet.x = this.x + this.halfWidth - 7 + Math.cos(angle) * this.barrelLength;
-            bullet.y = this.y + this.halfHeight * this.body.anchorY + 14 + Math.sin(angle) * this.barrelLength;
-
-            bullet.body.setVelocity(Math.cos(angle) * this.speed, Math.sin(angle) * this.speed);
-           
+            bullet.move(this);
         }
     }
 
     createDischarge() {
         this.game.VAR.discharge = new Discharge(this.game, {
-            key: 'fireShot'
+            key: 'fireShot32'
         });
     }
 
@@ -65,6 +58,20 @@ class Barrel extends Image {
             })
 
             this.game.ARR.bulletGroup.add(bullet, true);
+        }
+    }
+
+    preAllocateExplosion(count) {
+        this.game.ARR.explosionGroup = this.game.add.group();
+
+        for (let i = 0; i < count; i++) {
+            const explosion = new Explosion(this.game, {
+                key: 'explo',
+                x: 400,
+                y: 400
+            })
+
+            this.game.ARR.explosionGroup.add(explosion, true);
         }
     }
 };

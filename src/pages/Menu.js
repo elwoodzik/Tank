@@ -8,13 +8,13 @@ class Menu {
 
     create() {
         this.game.add.map({
-            json: '../../jsons/mapa4.json',
-            key: 'rpg64'
+            json: '../../jsons/mapa3.json',
+            key: 'rpg'
         }).then((map) => {
             this.game.VAR.map = map;
             //
             this.game.VAR.tank = new Tank(this.game, {
-                key: 'tank',
+                key: 'tank32',
                 x: 64 * 2,
                 y: 64 * 2
             });

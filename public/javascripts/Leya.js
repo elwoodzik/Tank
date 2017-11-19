@@ -68,8 +68,8 @@
 	    function Game() {
 	        _classCallCheck(this, Game);
 
-	        var gameWidth = 1920;
-	        var gameHeight = 1080;
+	        var gameWidth = 1280;
+	        var gameHeight = 720;
 	        var orientation = false; //false -> vertical, true -> horizontal (obecnie 'horizontal' jest nie obslugiwany!!!)
 	        var scallable = true;
 	        var mobile = false;
@@ -91,7 +91,11 @@
 	                'tileset': '/images/tileset.png',
 	                'test': '/images/test.png',
 	                'rpg': '/images/rp.png',
-	                'rpg64': '/images/rp64.png'
+	                'rpg64': '/images/rp64.png',
+	                'tank32': '/images/tank_32.png',
+	                'barrel32': '/images/barrel_32.png',
+	                'fireShot32': '/images/fireShot_32.png',
+	                'explo': '/images/explo.png'
 	            };
 	        }
 	    }, {
@@ -1264,9 +1268,10 @@
 
 	            this.game.ctx.drawImage(this.image, this.states[this.state].frames[this.current_f].sx, //+ !this.states[this.state].horizontal ? this.states[this.state].frames[this.current_f] * this.states[this.state].fW : 0,
 	            this.states[this.state].frames[this.current_f].sy, //+ this.states[this.state].horizontal ? this.states[this.state].frames[this.current_f] * this.states[this.state].fH : 0,
-	            this.states[this.state].frames[this.current_f].fW, this.states[this.state].frames[this.current_f].fH, Math.floor(this.states[this.state].flip ? -this.states[this.state].frames[this.current_f].fW - this.renderX + (!this.static ? this.game.camera.xScroll : 0) : Math.floor(this.renderX - (!this.static ? this.game.camera.xScroll : 0))), // * this.scale
-	            Math.floor(this.renderY - (!this.static ? this.game.camera.yScroll : 0)), // * this.scale
-	            this.states[this.state].frames[this.current_f].fW * this.scale, this.states[this.state].frames[this.current_f].fH * this.scale);
+	            this.states[this.state].frames[this.current_f].fW, this.states[this.state].frames[this.current_f].fH,
+	            // Math.floor(this.states[this.state].flip ? (-this.states[this.state].frames[this.current_f].fW - this.renderX + (!this.static ? this.game.camera.xScroll : 0)) : Math.floor(this.renderX - (!this.static ? this.game.camera.xScroll : 0))), // * this.scale
+	            // Math.floor(this.renderY - (!this.static ? this.game.camera.yScroll : 0)),// * this.scale
+	            this.body.angle === 0 ? this.renderX - (!this.static ? this.game.camera.xScroll : 0) : -this.states[this.state].frames[this.current_f].fW * this.body.anchorX, this.body.angle === 0 ? this.renderY - (!this.static ? this.game.camera.yScroll : 0) : -this.states[this.state].frames[this.current_f].fH * this.body.anchorY, this.states[this.state].frames[this.current_f].fW * this.scale, this.states[this.state].frames[this.current_f].fH * this.scale);
 
 	            if (this.states[this.state].flip) {
 	                this.game.ctx.restore();
@@ -1327,6 +1332,7 @@
 	        key: 'update',
 	        value: function update(dt) {
 	            //this.body.useGravity(this);
+
 	            this.body.worldBounce();
 	            this.moveToPointEasingHandler();
 	            this.moveToPointHandler();
@@ -2008,12 +2014,14 @@
 	            this.x = 0;
 	            this.y = 0;
 	            this.used = false;
+	            this.once = false;
 	            return this;
 	        }
 	    }, {
 	        key: 'show',
 	        value: function show() {
 	            this.used = true;
+
 	            return this;
 	        }
 	    }, {
@@ -2412,7 +2420,7 @@
 	            }
 
 	            if (!options.key) {
-	                throw "W momencie wywolania metody play wymagany jest 'key' obrazka";
+	                throw "W momencie wywolania metody play wymagany jest 'key' nazwanej animacji";
 	            }
 
 	            if (options.key != this.sprite.state) {
@@ -4300,12 +4308,14 @@
 	            var diffX = width - centerX;
 	            var diffY = height - centerY;
 	            var dist = Math.sqrt(diffX * diffX + diffY * diffY);
+	            // const ca = Math.atan2(diffY, diffX) * 180 / Math.PI;
+	            // const na = ((ca + angle * 180 / Math.PI) % 360) * Math.PI / 180;
 
 	            /// find angle from pivot to corner
-	            var ca = Math.atan2(diffY, diffX) * 180 / Math.PI;
+	            var ca = Math.atan2(diffY, diffX);
 
 	            /// get new angle based on old + current delta angle
-	            var na = (ca + angle * 180 / Math.PI) % 360 * Math.PI / 180;
+	            var na = ca + angle;
 
 	            /// get new x and y and round it off to integer
 	            var x = centerX + dist * Math.cos(na) + 0.5 | 0;
@@ -4362,8 +4372,9 @@
 	            });
 	            for (var j = 0; j < sk.length; j++) {
 	                for (var i = 0; i < sk[j].length; i++) {
-
-	                    if (sk[j][i].type === 'solid') {
+	                    if (!sk[j][i]) {
+	                        return false;
+	                    } else if (sk[j][i].type === 'solid') {
 	                        return false;
 	                    }
 	                }
@@ -4373,10 +4384,12 @@
 	    }, {
 	        key: 'getTile',
 	        value: function getTile(row, column) {
-	            var tiles = [];
-
-	            this.mapTilesLayers.forEach(function (map) {
-	                tiles.push(map.tilesLayer[column][row]);
+	            var tiles = this.mapTilesLayers.map(function (map) {
+	                if (map.tilesLayer[column] && map.tilesLayer[column][row]) {
+	                    return map.tilesLayer[column][row];
+	                } else {
+	                    return false;
+	                }
 	            });
 
 	            return tiles;
@@ -5563,13 +5576,13 @@
 	            var _this = this;
 
 	            this.game.add.map({
-	                json: '../../jsons/mapa4.json',
-	                key: 'rpg64'
+	                json: '../../jsons/mapa3.json',
+	                key: 'rpg'
 	            }).then(function (map) {
 	                _this.game.VAR.map = map;
 	                //
 	                _this.game.VAR.tank = new _Tank2.default(_this.game, {
-	                    key: 'tank',
+	                    key: 'tank32',
 	                    x: 64 * 2,
 	                    y: 64 * 2
 	                });
@@ -5641,58 +5654,58 @@
 	        key: 'create',
 	        value: function create() {
 	            this.body.setAnchor(0.5, 0.5);
-	            this.body.setWorldColider(true);
+	            this.speed = 1;
 
 	            this.barrel = new _Barrel2.default(this.game, {
-	                key: 'barrel',
-	                x: this.x + 7,
-	                y: this.y + 14
+	                key: 'barrel32',
+	                x: this.x + 8,
+	                y: this.y + 1
 	            });
 
 	            this.rect = this.game.add.rect({
 	                x: this.x,
 	                y: this.y,
-	                width: 6,
-	                height: 6
+	                width: 2,
+	                height: 2
 	            });
 
 	            this.rect1 = this.game.add.rect({
 	                x: this.x,
 	                y: this.y,
-	                width: 6,
-	                height: 6,
+	                width: 2,
+	                height: 2,
 	                fill: 'red'
 	            });
 
 	            this.rect2 = this.game.add.rect({
 	                x: this.x,
 	                y: this.y,
-	                width: 6,
-	                height: 6,
+	                width: 2,
+	                height: 2,
 	                fill: 'red'
 	            });
 
 	            this.rect3 = this.game.add.rect({
 	                x: this.x,
 	                y: this.y,
-	                width: 6,
-	                height: 6,
+	                width: 2,
+	                height: 2,
 	                fill: 'red'
 	            });
 
 	            this.rect4 = this.game.add.rect({
 	                x: this.x,
 	                y: this.y,
-	                width: 6,
-	                height: 6,
+	                width: 2,
+	                height: 2,
 	                fill: 'red'
 	            });
 
 	            this.rect5 = this.game.add.rect({
 	                x: this.x,
 	                y: this.y,
-	                width: 6,
-	                height: 6,
+	                width: 2,
+	                height: 2,
 	                fill: 'red'
 	            });
 	        }
@@ -5712,71 +5725,69 @@
 	        key: 'update',
 	        value: function update(dt) {
 	            superUpdate.call(this, dt);
-	            var a = this.body.angle * 180 / Math.PI + 90;
+
 	            var centerX = this.getCenter().x;
 	            var centerY = this.getCenter().y;
 
-	            var skeletonBottom = {
-	                bottom: this.game.VAR.map.getPoint(centerX, centerY, centerX, this.y + this.height, this.body.angle),
-	                bottomLeft: this.game.VAR.map.getPoint(centerX, centerY, this.x + 6, this.y + this.height, this.body.angle),
-	                bottomRight: this.game.VAR.map.getPoint(centerX, centerY, this.x + this.width - 6, this.y + this.height, this.body.angle)
+	            var skeletonFront = {
+	                bottom: this.game.VAR.map.getPoint(centerX, centerY, centerX + this.halfWidth, centerY, this.body.angle),
+	                bottomLeft: this.game.VAR.map.getPoint(centerX, centerY, centerX + this.halfWidth, centerY + this.halfHeight - 4, this.body.angle),
+	                bottomRight: this.game.VAR.map.getPoint(centerX, centerY, centerX + this.halfWidth, this.y + 4, this.body.angle)
 	            };
 
-	            var skeletonTop = {
-	                topRight: this.game.VAR.map.getPoint(centerX, centerY, this.x + this.width - 6, this.y, this.body.angle),
-	                topLeft: this.game.VAR.map.getPoint(centerX, centerY, this.x + 6, this.y, this.body.angle),
-	                top: this.game.VAR.map.getPoint(centerX, centerY, centerX, this.y, this.body.angle)
+	            var skeletonBack = {
+	                topRight: this.game.VAR.map.getPoint(centerX, centerY, centerX - this.halfWidth, centerY, this.body.angle),
+	                topLeft: this.game.VAR.map.getPoint(centerX, centerY, centerX - this.halfWidth, centerY + this.halfHeight - 4, this.body.angle),
+	                top: this.game.VAR.map.getPoint(centerX, centerY, centerX - this.halfWidth, this.y + 4, this.body.angle)
 	            };
 
-	            this.rect.x = skeletonTop.topRight.x;
-	            this.rect.y = skeletonTop.topRight.y;
+	            this.rect.x = skeletonBack.topRight.x;
+	            this.rect.y = skeletonBack.topRight.y;
 
-	            this.rect1.x = skeletonTop.topLeft.x;
-	            this.rect1.y = skeletonTop.topLeft.y;
+	            this.rect1.x = skeletonBack.topLeft.x;
+	            this.rect1.y = skeletonBack.topLeft.y;
 
-	            this.rect5.x = skeletonTop.top.x;
-	            this.rect5.y = skeletonTop.top.y;
+	            this.rect5.x = skeletonBack.top.x;
+	            this.rect5.y = skeletonBack.top.y;
 
-	            this.rect2.x = skeletonBottom.bottomLeft.x;
-	            this.rect2.y = skeletonBottom.bottomLeft.y;
+	            this.rect2.x = skeletonFront.bottomLeft.x;
+	            this.rect2.y = skeletonFront.bottomLeft.y;
 
-	            this.rect3.x = skeletonBottom.bottomRight.x;
-	            this.rect3.y = skeletonBottom.bottomRight.y;
+	            this.rect3.x = skeletonFront.bottomRight.x;
+	            this.rect3.y = skeletonFront.bottomRight.y;
 
-	            this.rect4.x = skeletonBottom.bottom.x;
-	            this.rect4.y = skeletonBottom.bottom.y;
+	            this.rect4.x = skeletonFront.bottom.x;
+	            this.rect4.y = skeletonFront.bottom.y;
 
 	            if (this.game.keyboard.trigger('W')) {
-	                if (this.game.VAR.map.getNextPosition(skeletonBottom)) {
-	                    this.x += Math.cos(a * Math.PI / 180) * 2;
-	                    this.y += Math.sin(a * Math.PI / 180) * 2;
+	                if (this.game.VAR.map.getNextPosition(skeletonFront)) {
+	                    this.x += Math.cos(this.body.angle) * this.speed;
+	                    this.y += Math.sin(this.body.angle) * this.speed;
 	                } else {
-	                    this.x -= Math.cos(a * Math.PI / 180) * 1;
-	                    this.y -= Math.sin(a * Math.PI / 180) * 1;
+	                    this.x -= Math.cos(this.body.angle) * 0.5;
+	                    this.y -= Math.sin(this.body.angle) * 0.5;
 	                }
-	            }
-	            if (this.game.keyboard.trigger('S')) {
-	                if (this.game.VAR.map.getNextPosition(skeletonTop)) {
-	                    this.x -= Math.cos(a * Math.PI / 180) * 1;
-	                    this.y -= Math.sin(a * Math.PI / 180) * 1;
+	            } else if (this.game.keyboard.trigger('S')) {
+	                if (this.game.VAR.map.getNextPosition(skeletonBack)) {
+	                    this.x -= Math.cos(this.body.angle) * 0.5;
+	                    this.y -= Math.sin(this.body.angle) * 0.5;
 	                } else {
-	                    this.x += Math.cos(a * Math.PI / 180) * 1;
-	                    this.y += Math.sin(a * Math.PI / 180) * 1;
+	                    this.x += Math.cos(this.body.angle) * 0.5;
+	                    this.y += Math.sin(this.body.angle) * 0.5;
 	                }
 	            }
 
 	            if (this.game.keyboard.trigger('A')) {
-	                if (this.game.VAR.map.getNextPosition(skeletonBottom)) {
+	                if (this.game.VAR.map.getNextPosition(skeletonFront)) {
 	                    this.body.remAngle(1);
 	                }
-	            }
-	            if (this.game.keyboard.trigger('D')) {
-	                if (this.game.VAR.map.getNextPosition(skeletonBottom)) {
+	            } else if (this.game.keyboard.trigger('D')) {
+	                if (this.game.VAR.map.getNextPosition(skeletonFront)) {
 	                    this.body.addAngle(1);
 	                }
 	            }
-	            this.barrel.x = this.x + 7;
-	            this.barrel.y = this.y + 14;
+	            this.barrel.x = this.x + 8;
+	            this.barrel.y = this.y + 1;
 	        }
 	    }]);
 
@@ -5814,6 +5825,10 @@
 
 	var _Discharge2 = _interopRequireDefault(_Discharge);
 
+	var _Explosion = __webpack_require__(30);
+
+	var _Explosion2 = _interopRequireDefault(_Explosion);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -5839,13 +5854,7 @@
 	            var bullet = _this.game.ARR.bulletGroup.spawn();
 
 	            if (bullet) {
-	                bullet.lifeTime = 17;
-	                var angle = _this.body.angle + bullet.toAngle;
-	                bullet.body.angle = angle;
-	                bullet.x = _this.x + _this.halfWidth - 7 + Math.cos(angle) * _this.barrelLength;
-	                bullet.y = _this.y + _this.halfHeight * _this.body.anchorY + 14 + Math.sin(angle) * _this.barrelLength;
-
-	                bullet.body.setVelocity(Math.cos(angle) * _this.speed, Math.sin(angle) * _this.speed);
+	                bullet.move(_this);
 	            }
 	        };
 
@@ -5856,31 +5865,30 @@
 	    _createClass(Barrel, [{
 	        key: 'create',
 	        value: function create() {
-	            this.speed = 2550;
+	            this.barrelLength = 35;
 
-	            this.barrelLength = 70;
-
-	            this.body.setAnchor(0.5, 0.3);
+	            this.body.setAnchor(0.3, 0.5);
 
 	            this.setIndex(10);
 
 	            this.createDischarge();
 
-	            this.preAllocateBullets(10);
+	            this.preAllocateBullets(500);
+	            this.preAllocateExplosion(500);
 	        }
 	    }, {
 	        key: 'update',
 	        value: function update(dt) {
 	            superUpdate.call(this, dt);
 
-	            this.body.rotateByMouse(90, true, 0.02);
+	            this.body.rotateByMouse(0, true, 0.02);
 	            this.game.mouse.trigger(null, false, this.shot, false);
 	        }
 	    }, {
 	        key: 'createDischarge',
 	        value: function createDischarge() {
 	            this.game.VAR.discharge = new _Discharge2.default(this.game, {
-	                key: 'fireShot'
+	                key: 'fireShot32'
 	            });
 	        }
 	    }, {
@@ -5894,6 +5902,21 @@
 	                });
 
 	                this.game.ARR.bulletGroup.add(bullet, true);
+	            }
+	        }
+	    }, {
+	        key: 'preAllocateExplosion',
+	        value: function preAllocateExplosion(count) {
+	            this.game.ARR.explosionGroup = this.game.add.group();
+
+	            for (var i = 0; i < count; i++) {
+	                var explosion = new _Explosion2.default(this.game, {
+	                    key: 'explo',
+	                    x: 400,
+	                    y: 400
+	                });
+
+	                this.game.ARR.explosionGroup.add(explosion, true);
 	            }
 	        }
 	    }]);
@@ -5945,23 +5968,60 @@
 	    _createClass(Bullet, [{
 	        key: 'create',
 	        value: function create() {
-	            this.toAngle = 90 * Math.PI / 180;
-
 	            this.zIndex = 8;
-
-	            this.lifeTime = 17;
-
-	            //this.body.setWorldBounds(true);
-
-	            // this.body.setWorldColider(true);
+	            this.startLifeTime = 17;
+	            this.speed = 1700;
+	        }
+	    }, {
+	        key: 'draw',
+	        value: function draw(dt) {
+	            superDraw.call(this, dt);
 	        }
 	    }, {
 	        key: 'update',
 	        value: function update(dt) {
 	            superUpdate.call(this, dt);
-	            this.lifeTime--;
-	            if (this.lifeTime <= 0) {
+	            var centerX = this.getCenter().x;
+	            var centerY = this.getCenter().y;
+
+	            var skeleton = {
+	                front: this.game.VAR.map.getPoint(centerX, centerY, centerX + this.halfWidth, centerY, this.body.angle)
+	            };
+
+	            if (!this.game.VAR.map.getNextPosition(skeleton)) {
+	                this.spawExplosion();
 	                this.game.ARR.bulletGroup.recycle(this);
+	            }
+
+	            this.lifeTime--;
+
+	            if (this.lifeTime <= 0) {
+	                this.spawExplosion();
+	                this.game.ARR.bulletGroup.recycle(this);
+	            }
+
+	            // this.rect.x = skeleton.front.x;
+	            // this.rect.y = skeleton.front.y;
+	        }
+	    }, {
+	        key: 'move',
+	        value: function move(barrel) {
+	            this.lifeTime = this.startLifeTime;
+	            this.body.angle = barrel.body.angle;
+	            this.x = barrel.x + 11 + Math.cos(this.body.angle) * barrel.barrelLength;
+	            this.y = barrel.y + 12 + Math.sin(this.body.angle) * barrel.barrelLength;
+
+	            this.body.setVelocity(Math.cos(this.body.angle) * this.speed, Math.sin(this.body.angle) * this.speed);
+	        }
+	    }, {
+	        key: 'spawExplosion',
+	        value: function spawExplosion() {
+	            var explosion = this.game.ARR.explosionGroup.spawn();
+
+	            if (explosion) {
+	                explosion.x = this.x - 11;
+	                explosion.y = this.y - 12;
+	                explosion.body.angle = this.body.angle;
 	            }
 	        }
 	    }]);
@@ -5972,6 +6032,7 @@
 	;
 
 	var superUpdate = _Image3.default.prototype.update;
+	var superDraw = _Image3.default.prototype.draw;
 
 	exports.default = Bullet;
 
@@ -6014,10 +6075,9 @@
 	    _createClass(Discharge, [{
 	        key: 'create',
 	        value: function create() {
-	            this.body.setAnchor(0.5, 0.3);
+	            this.body.setAnchor(0.3, 0.5);
+	            this.dischargeLength = 30;
 	            this.zIndex = 9;
-
-	            this.toAngle = 90 * Math.PI / 180;
 	            this.hide();
 	        }
 	    }, {
@@ -6025,10 +6085,9 @@
 	        value: function use(barrel) {
 	            var _this2 = this;
 
-	            var angle = barrel.body.angle + this.toAngle;
 	            this.body.angle = barrel.body.angle;
-	            this.x = barrel.x + barrel.halfWidth - 13 + Math.cos(angle) * 60;
-	            this.y = barrel.y + barrel.halfHeight * barrel.body.anchorY - 1 + Math.sin(angle) * 60;
+	            this.x = barrel.x + 7 + Math.cos(barrel.body.angle) * this.dischargeLength;
+	            this.y = barrel.y + barrel.halfHeight - 6 + Math.sin(barrel.body.angle) * this.dischargeLength;
 	            this.show();
 
 	            setTimeout(function () {
@@ -6043,6 +6102,72 @@
 	;
 
 	exports.default = Discharge;
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _Sprite2 = __webpack_require__(6);
+
+	var _Sprite3 = _interopRequireDefault(_Sprite2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Explosion = function (_Sprite) {
+	    _inherits(Explosion, _Sprite);
+
+	    function Explosion(game, options) {
+	        _classCallCheck(this, Explosion);
+
+	        var _this = _possibleConstructorReturn(this, (Explosion.__proto__ || Object.getPrototypeOf(Explosion)).call(this, game, options));
+
+	        _this.create();
+	        return _this;
+	    }
+
+	    _createClass(Explosion, [{
+	        key: 'create',
+	        value: function create() {
+	            var _this2 = this;
+
+	            this.zIndex = 18;
+	            this.body.setAnchor(0.5, 0.5);
+
+	            this.animations.add({
+	                key: 'destroy',
+	                frames: [{ 'sx': 0, 'sy': 0, 'fW': 32, 'fH': 30 }, { 'sx': 32, 'sy': 0, 'fW': 32, 'fH': 30 }, { 'sx': 32 * 2, 'sy': 0, 'fW': 32, 'fH': 30 }, { 'sx': 32 * 3, 'sy': 0, 'fW': 32, 'fH': 30 }, { 'sx': 0, 'sy': 32, 'fW': 32, 'fH': 30 }, { 'sx': 32, 'sy': 32, 'fW': 32, 'fH': 30 }, { 'sx': 32 * 2, 'sy': 32, 'fW': 32, 'fH': 30 }, { 'sx': 32 * 3, 'sy': 32, 'fW': 32, 'fH': 30 }, { 'sx': 0, 'sy': 32 * 2, 'fW': 32, 'fH': 30 }, { 'sx': 32, 'sy': 32 * 2, 'fW': 32, 'fH': 30 }, { 'sx': 32 * 2, 'sy': 32 * 2, 'fW': 32, 'fH': 30 }, { 'sx': 32 * 3, 'sy': 32 * 2, 'fW': 32, 'fH': 30 }, { 'sx': 0, 'sy': 32 * 3, 'fW': 32, 'fH': 30 }, { 'sx': 32, 'sy': 32 * 3, 'fW': 32, 'fH': 30 }]
+	            });
+
+	            this.animations.play({
+	                key: 'destroy',
+	                delay: 4,
+	                action: function action() {
+	                    _this2.game.ARR.explosionGroup.recycle(_this2);
+	                }
+	            });
+	        }
+	    }]);
+
+	    return Explosion;
+	}(_Sprite3.default);
+
+	;
+
+	exports.default = Explosion;
 
 /***/ })
 /******/ ]);

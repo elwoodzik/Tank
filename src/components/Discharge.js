@@ -8,18 +8,16 @@ class Discharge extends Image {
     }
 
     create() {
-        this.body.setAnchor(0.5, 0.3);
+        this.body.setAnchor(0.3, 0.5);
+        this.dischargeLength = 30;
         this.zIndex = 9;
-
-        this.toAngle = 90 * Math.PI / 180;
         this.hide();
     }
 
     use(barrel) {
-        const angle = barrel.body.angle + this.toAngle;
         this.body.angle = barrel.body.angle;
-        this.x = (barrel.x + barrel.halfWidth - 13) + Math.cos(angle) * 60;
-        this.y = (barrel.y + barrel.halfHeight * barrel.body.anchorY - 1) + Math.sin(angle) * 60;
+        this.x = (barrel.x + 7) + Math.cos(barrel.body.angle) * this.dischargeLength;
+        this.y = (barrel.y + barrel.halfHeight - 6 ) + Math.sin(barrel.body.angle) * this.dischargeLength;
         this.show();
 
         setTimeout(() => {

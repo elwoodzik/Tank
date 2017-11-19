@@ -10,59 +10,58 @@ class Tank extends Image {
 
     create() {
         this.body.setAnchor(0.5, 0.5);
-        this.body.setWorldColider(true);
+        this.speed = 1;
 
         this.barrel = new Barrel(this.game, {
-            key: 'barrel',
-            x: this.x + 7,
-            y: this.y + 14,
+            key: 'barrel32',
+            x: this.x + 8,
+            y: this.y + 1
         })
 
         this.rect = this.game.add.rect({
             x: this.x,
             y: this.y,
-            width: 6,
-            height: 6,
+            width: 2,
+            height: 2,
         })
 
         this.rect1 = this.game.add.rect({
             x: this.x,
             y: this.y,
-            width: 6,
-            height: 6,
+            width: 2,
+            height: 2,
             fill: 'red'
         })
 
         this.rect2 = this.game.add.rect({
             x: this.x,
             y: this.y,
-            width: 6,
-            height: 6,
+            width: 2,
+            height: 2,
             fill: 'red'
         })
-
 
         this.rect3 = this.game.add.rect({
             x: this.x,
             y: this.y,
-            width: 6,
-            height: 6,
+            width: 2,
+            height: 2,
             fill: 'red'
         })
 
         this.rect4 = this.game.add.rect({
             x: this.x,
             y: this.y,
-            width: 6,
-            height: 6,
+            width: 2,
+            height: 2,
             fill: 'red'
         })
 
         this.rect5 = this.game.add.rect({
             x: this.x,
             y: this.y,
-            width: 6,
-            height: 6,
+            width: 2,
+            height: 2,
             fill: 'red'
         })
     }
@@ -79,74 +78,72 @@ class Tank extends Image {
     // }
     update(dt) {
         superUpdate.call(this, dt);
-        const a = this.body.angle * 180 / Math.PI + 90;
+
         const centerX = this.getCenter().x;
         const centerY = this.getCenter().y;
 
-        const skeletonBottom = {
-            bottom: this.game.VAR.map.getPoint(centerX, centerY, centerX, this.y + this.height, this.body.angle),
-            bottomLeft: this.game.VAR.map.getPoint(centerX, centerY, this.x + 6, this.y + this.height, this.body.angle),
-            bottomRight: this.game.VAR.map.getPoint(centerX, centerY, this.x + this.width - 6, this.y + this.height, this.body.angle)
+        const skeletonFront = {
+            bottom: this.game.VAR.map.getPoint(centerX, centerY, centerX + this.halfWidth, centerY, this.body.angle),
+            bottomLeft: this.game.VAR.map.getPoint(centerX, centerY, centerX + this.halfWidth, centerY + this.halfHeight - 4, this.body.angle),
+            bottomRight: this.game.VAR.map.getPoint(centerX, centerY, centerX + this.halfWidth, this.y + 4, this.body.angle)
         }
 
-        const skeletonTop = {
-            topRight: this.game.VAR.map.getPoint(centerX, centerY, this.x + this.width - 6, this.y, this.body.angle),
-            topLeft: this.game.VAR.map.getPoint(centerX, centerY, this.x + 6, this.y, this.body.angle),
-            top: this.game.VAR.map.getPoint(centerX, centerY, centerX, this.y, this.body.angle),
+        const skeletonBack = {
+            topRight: this.game.VAR.map.getPoint(centerX, centerY, centerX - this.halfWidth, centerY, this.body.angle),
+            topLeft: this.game.VAR.map.getPoint(centerX, centerY, centerX - this.halfWidth, centerY + this.halfHeight - 4, this.body.angle),
+            top: this.game.VAR.map.getPoint(centerX, centerY, centerX - this.halfWidth, this.y + 4, this.body.angle),
         }
 
-        this.rect.x = skeletonTop.topRight.x;
-        this.rect.y = skeletonTop.topRight.y;
+        this.rect.x = skeletonBack.topRight.x;
+        this.rect.y = skeletonBack.topRight.y;
 
-        this.rect1.x = skeletonTop.topLeft.x;
-        this.rect1.y = skeletonTop.topLeft.y;
+        this.rect1.x = skeletonBack.topLeft.x;
+        this.rect1.y = skeletonBack.topLeft.y;
 
-        this.rect5.x = skeletonTop.top.x;
-        this.rect5.y = skeletonTop.top.y;
+        this.rect5.x = skeletonBack.top.x;
+        this.rect5.y = skeletonBack.top.y;
 
-        this.rect2.x = skeletonBottom.bottomLeft.x;
-        this.rect2.y = skeletonBottom.bottomLeft.y;
+        this.rect2.x = skeletonFront.bottomLeft.x;
+        this.rect2.y = skeletonFront.bottomLeft.y;
 
-        this.rect3.x = skeletonBottom.bottomRight.x;
-        this.rect3.y = skeletonBottom.bottomRight.y;
+        this.rect3.x = skeletonFront.bottomRight.x;
+        this.rect3.y = skeletonFront.bottomRight.y;
 
-        this.rect4.x = skeletonBottom.bottom.x;
-        this.rect4.y = skeletonBottom.bottom.y;
+        this.rect4.x = skeletonFront.bottom.x;
+        this.rect4.y = skeletonFront.bottom.y;
 
         if (this.game.keyboard.trigger('W')) {
-            if (this.game.VAR.map.getNextPosition(skeletonBottom)) {
-                this.x += Math.cos(a * Math.PI / 180) * 2;
-                this.y += Math.sin(a * Math.PI / 180) * 2;
+            if (this.game.VAR.map.getNextPosition(skeletonFront)) {
+                this.x += Math.cos(this.body.angle) * this.speed;
+                this.y += Math.sin(this.body.angle) * this.speed;
             } else {
-                this.x -= Math.cos(a * Math.PI / 180) * 1;
-                this.y -= Math.sin(a * Math.PI / 180) * 1;
+                this.x -= Math.cos(this.body.angle) * 0.5;
+                this.y -= Math.sin(this.body.angle) * 0.5;
             }
         }
-        if (this.game.keyboard.trigger('S')) {
-            if (this.game.VAR.map.getNextPosition(skeletonTop)) {
-                this.x -= Math.cos(a * Math.PI / 180) * 1;
-                this.y -= Math.sin(a * Math.PI / 180) * 1;
+        else if (this.game.keyboard.trigger('S')) {
+            if (this.game.VAR.map.getNextPosition(skeletonBack)) {
+                this.x -= Math.cos(this.body.angle) * 0.5;
+                this.y -= Math.sin(this.body.angle) * 0.5;
             } else {
-                this.x += Math.cos(a * Math.PI / 180) * 1;
-                this.y += Math.sin(a * Math.PI / 180) * 1;
+                this.x += Math.cos(this.body.angle) * 0.5;
+                this.y += Math.sin(this.body.angle) * 0.5;
             }
         }
 
         if (this.game.keyboard.trigger('A')) {
-            if (this.game.VAR.map.getNextPosition(skeletonBottom)) {
+            if (this.game.VAR.map.getNextPosition(skeletonFront)) {
                 this.body.remAngle(1);
             }
         }
-        if (this.game.keyboard.trigger('D')) {
-            if (this.game.VAR.map.getNextPosition(skeletonBottom)) {
+        else if (this.game.keyboard.trigger('D')) {
+            if (this.game.VAR.map.getNextPosition(skeletonFront)) {
                 this.body.addAngle(1);
             }
         }
-        this.barrel.x = this.x + 7;
-        this.barrel.y = this.y + 14;
+        this.barrel.x = this.x + 8;
+        this.barrel.y = this.y + 1;
     }
-
-
 };
 
 const superUpdate = Image.prototype.update;

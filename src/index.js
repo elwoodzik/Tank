@@ -4,8 +4,8 @@ import Menu from './Pages/Menu';
 class Game {
 
     constructor() {
-        const gameWidth = 1920;
-        const gameHeight = 1080;
+        const gameWidth = 1280;
+        const gameHeight = 720;
         const orientation = false; //false -> vertical, true -> horizontal (obecnie 'horizontal' jest nie obslugiwany!!!)
         const scallable = true;
         const mobile = false;
@@ -26,6 +26,10 @@ class Game {
             'test': '/images/test.png',
             'rpg': '/images/rp.png',
             'rpg64': '/images/rp64.png',
+            'tank32': '/images/tank_32.png',
+            'barrel32': '/images/barrel_32.png',
+            'fireShot32': '/images/fireShot_32.png',
+            'explo': '/images/explo.png',
         }
     }
 
