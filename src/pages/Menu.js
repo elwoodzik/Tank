@@ -1,4 +1,6 @@
-import Tank from '../components/Tank';
+import Tank1 from '../components/Tanks/Tank1/Tank';
+import Tank2 from '../components/Tanks/Tank2/Tank';
+import Hud from '../components/Hud/Hud';
 
 class Menu {
 
@@ -13,21 +15,18 @@ class Menu {
         }).then((map) => {
             this.game.VAR.map = map;
             //
-            this.game.VAR.tank = new Tank(this.game, {
-                key: 'tank32',
-                x: 64 * 2,
-                y: 64 * 2
-            });
+            // this.game.VAR.tank = new Tank1(this.game);
+            this.game.VAR.tank = new Tank2(this.game);
             //
             this.game.setPortView(2560, 2560);
             //
             this.game.add.camera({
-                worldWidth: this.game.width,
-                worldHeight: this.game.height,
                 followed: this.game.VAR.tank
             })
             //
             this.game.sortByIndex();
+
+            this.game.VAR.hud = new Hud(this.game);
         })
     }
 

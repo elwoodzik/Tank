@@ -1,4 +1,4 @@
-import Image from '../../lib/Image';
+import Image from '../../../../lib/Image';
 import Bullet from './Bullet';
 import Discharge from './Discharge';
 import Explosion from './Explosion';
@@ -14,7 +14,10 @@ class Barrel extends Image {
     }
 
     create() {
-        this.barrelLength = 35;
+        this.barrelLength = 35; // zasieg lufy
+        this.currentTimeToShot = 150; // obecny czas do wystrzalu
+        this.shotTime = 150; // czas potrzebny by wystrzelic
+        this.shotTimeAcc = 1; // predkosc ladowania pocisku
 
         this.body.setAnchor(0.3, 0.5);
 
@@ -30,16 +33,28 @@ class Barrel extends Image {
         superUpdate.call(this, dt);
 
         this.body.rotateByMouse(0, true, 0.02);
+
         this.game.mouse.trigger(null, false, this.shot, false);
+
+        this.reChargeShot();
     }
 
     shot = () => {
-        this.game.VAR.discharge.use(this);
+        if (this.currentTimeToShot >= this.shotTime) {
+            this.game.VAR.discharge.use(this);
 
-        const bullet = this.game.ARR.bulletGroup.spawn();
-       
-        if (bullet) {
-            bullet.move(this);
+            const bullet = this.game.ARR.bulletGroup.spawn();
+
+            if (bullet) {
+                bullet.move(this);
+            }
+            this.currentTimeToShot = 0;
+        }
+    }
+
+    reChargeShot() {
+        if (this.currentTimeToShot < this.shotTime) {
+            this.currentTimeToShot += this.shotTimeAcc;
         }
     }
 

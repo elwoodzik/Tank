@@ -1,4 +1,4 @@
-import Image from '../../lib/Image';
+import Image from '../../../../lib/Image';
 
 class Bullet extends Image {
 
@@ -20,6 +20,7 @@ class Bullet extends Image {
 
     update(dt) {
         superUpdate.call(this, dt);
+
         const centerX = this.getCenter().x;
         const centerY = this.getCenter().y;
 

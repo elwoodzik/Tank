@@ -30,6 +30,8 @@ class Game {
             'barrel32': '/images/barrel_32.png',
             'fireShot32': '/images/fireShot_32.png',
             'explo': '/images/explo.png',
+            'barrel128': '/images/barrel128.png',
+            'tank128': '/images/tank128.png',
         }
     }
 

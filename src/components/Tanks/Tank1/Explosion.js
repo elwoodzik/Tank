@@ -1,4 +1,4 @@
-import Sprite from '../../lib/Sprite';
+import Sprite from '../../../../lib/Sprite';
 
 class Explosion extends Sprite {
 
