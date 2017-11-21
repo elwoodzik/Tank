@@ -1,93 +1,30 @@
-import Image from '../../../../lib/Image';
+import AbstractBarrel from '../../Abstract/Barrel';
 import Bullet from './Bullet';
 import Discharge from './Discharge';
 import Explosion from './Explosion';
 
-const superUpdate = Image.prototype.update;
-//const superDraw = Image.prototype.draw;
-
-class Barrel extends Image {
+class Barrel extends AbstractBarrel {
 
     constructor(game, options) {
         super(game, options);
-        this.create();
+
+        this.newSettings();
+
+        this.discharge = new Discharge(this.game);
+
+        this.preAllocateBullets(500, Bullet);
+
+        this.preAllocateExplosion(500, Explosion);
     }
 
-    create() {
-        this.barrelLength = 35; // zasieg lufy
-        this.currentTimeToShot = 150; // obecny czas do wystrzalu
-        this.shotTime = 150; // czas potrzebny by wystrzelic
-        this.shotTimeAcc = 1; // predkosc ladowania pocisku
+    //  SĄ TO DOMYŚLNE USTAWIENIA, TUTAJ MOŻNA JE NADPISAĆ
+    newSettings() {
+        // this.barrelLength = 35; // zasieg lufy
+        // this.currentTimeToShot = 150; // obecny czas do wystrzalu
+        // this.shotTime = 150; // czas potrzebny by wystrzelic
+        // this.shotTimeAcc = 1; // predkosc ladowania pocisku
 
-        this.body.setAnchor(0.3, 0.5);
-
-        this.setIndex(10);
-
-        this.createDischarge();
-
-        this.preAllocateBullets(500);
-        this.preAllocateExplosion(500);
-    }
-
-    update(dt) {
-        superUpdate.call(this, dt);
-
-        this.body.rotateByMouse(0, true, 0.02);
-
-        this.game.mouse.trigger(null, false, this.shot, false);
-
-        this.reChargeShot();
-    }
-
-    shot = () => {
-        if (this.currentTimeToShot >= this.shotTime) {
-            this.game.VAR.discharge.use(this);
-
-            const bullet = this.game.ARR.bulletGroup.spawn();
-
-            if (bullet) {
-                bullet.move(this);
-            }
-            this.currentTimeToShot = 0;
-        }
-    }
-
-    reChargeShot() {
-        if (this.currentTimeToShot < this.shotTime) {
-            this.currentTimeToShot += this.shotTimeAcc;
-        }
-    }
-
-    createDischarge() {
-        this.game.VAR.discharge = new Discharge(this.game, {
-            key: 'fireShot32'
-        });
-    }
-
-    preAllocateBullets(count) {
-        this.game.ARR.bulletGroup = this.game.add.group();
-
-        for (let i = 0; i < count; i++) {
-            const bullet = new Bullet(this.game, {
-                key: 'bullet',
-            })
-
-            this.game.ARR.bulletGroup.add(bullet, true);
-        }
-    }
-
-    preAllocateExplosion(count) {
-        this.game.ARR.explosionGroup = this.game.add.group();
-
-        for (let i = 0; i < count; i++) {
-            const explosion = new Explosion(this.game, {
-                key: 'explo',
-                x: 400,
-                y: 400
-            })
-
-            this.game.ARR.explosionGroup.add(explosion, true);
-        }
+        // this.body.setAnchor(0.3, 0.5);
     }
 };
 

@@ -1,28 +1,11 @@
-import Image from '../../../../lib/Image';
+import AbstractDischarge from '../../Abstract/Discharge';
 
-class Discharge extends Image {
+class Discharge extends AbstractDischarge {
 
-    constructor(game, options) {
-        super(game, options);
-        this.create();
-    }
-
-    create() {
-        this.body.setAnchor(0.3, 0.5);
-        this.dischargeLength = 30;
-        this.zIndex = 9;
-        this.hide();
-    }
-
-    use(barrel) {
-        this.body.angle = barrel.body.angle;
-        this.x = (barrel.x + 7) + Math.cos(barrel.body.angle) * this.dischargeLength;
-        this.y = (barrel.y + barrel.halfHeight - 6 ) + Math.sin(barrel.body.angle) * this.dischargeLength;
-        this.show();
-
-        setTimeout(() => {
-            this.hide();
-        }, 30)
+    constructor(game) {
+        super(game, {
+            key: 'fireShot32'
+        });
     }
 };
 

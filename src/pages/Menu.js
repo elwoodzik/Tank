@@ -16,7 +16,8 @@ class Menu {
             this.game.VAR.map = map;
             //
             // this.game.VAR.tank = new Tank1(this.game);
-            this.game.VAR.tank = new Tank2(this.game);
+            this.game.VAR.tank = new Tank1(this.game);
+            new Tank2(this.game);
             //
             this.game.setPortView(2560, 2560);
             //

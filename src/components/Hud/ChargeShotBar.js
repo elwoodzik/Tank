@@ -6,11 +6,11 @@ class ChargeShotBar extends Bar {
         super(game, options);
     }
 
-    draw(dt){
+    draw(dt) {
         superDraw.call(this, dt);
-        this.setStatusX(this.game.VAR.barrel.currentTimeToShot)
+        this.setStatusX(this.game.VAR.tank.barrel.currentTimeToShot);
     }
 };
- 
+
 const superDraw = Bar.prototype.draw;
 export default ChargeShotBar;

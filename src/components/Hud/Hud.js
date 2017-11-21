@@ -9,8 +9,8 @@ class Hud {
 
     create() {
         new ChargeShotBar(this.game, {
-            min: this.game.VAR.barrel.currentTimeToShot,
-            max: this.game.VAR.barrel.shotTime,
+            min: this.game.VAR.tank.barrel.currentTimeToShot,
+            max: this.game.VAR.tank.barrel.shotTime,
             width: 150,
             height: 25,
             x: this.game.width - 200,

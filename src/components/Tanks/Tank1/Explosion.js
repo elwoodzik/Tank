@@ -3,7 +3,11 @@ import Sprite from '../../../../lib/Sprite';
 class Explosion extends Sprite {
 
     constructor(game, options) {
-        super(game, options);
+        super(game, {
+            key: 'explo',
+            x: 400,
+            y: 400
+        });
         this.create();
     }
 
