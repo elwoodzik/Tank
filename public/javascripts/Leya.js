@@ -93,6 +93,7 @@
 	                'rpg': '/images/rp.png',
 	                'rpg64': '/images/rp64.png',
 	                'tank32': '/images/tank_32.png',
+	                'tank_enemy32': '/images/tank_enemy_32.png',
 	                'barrel32': '/images/barrel_32.png',
 	                'fireShot32': '/images/fireShot_32.png',
 	                'explo': '/images/explo.png',
@@ -5566,6 +5567,10 @@
 
 	var _Tank4 = _interopRequireDefault(_Tank3);
 
+	var _EnemyTank = __webpack_require__(42);
+
+	var _EnemyTank2 = _interopRequireDefault(_EnemyTank);
+
 	var _Hud = __webpack_require__(40);
 
 	var _Hud2 = _interopRequireDefault(_Hud);
@@ -5595,11 +5600,12 @@
 	                // this.game.VAR.tank = new Tank1(this.game);
 	                _this.game.VAR.tank = new _Tank2.default(_this.game);
 	                new _Tank4.default(_this.game);
+	                var enemy = new _EnemyTank2.default(_this.game);
 	                //
 	                _this.game.setPortView(2560, 2560);
 	                //
 	                _this.game.add.camera({
-	                    followed: _this.game.VAR.tank
+	                    followed: enemy
 	                });
 	                //
 	                _this.game.sortByIndex();
@@ -6752,6 +6758,292 @@
 
 	var superDraw = _Bar3.default.prototype.draw;
 	exports.default = ChargeShotBar;
+
+/***/ }),
+/* 42 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _Tank = __webpack_require__(43);
+
+	var _Tank2 = _interopRequireDefault(_Tank);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Tank = function (_AbstractTank) {
+	    _inherits(Tank, _AbstractTank);
+
+	    function Tank(game) {
+	        _classCallCheck(this, Tank);
+
+	        var _this = _possibleConstructorReturn(this, (Tank.__proto__ || Object.getPrototypeOf(Tank)).call(this, game, {
+	            key: 'tank_enemy32',
+	            x: 64 * 4,
+	            y: 64 * 6
+	        }));
+
+	        _this.newSettings();
+
+	        // this.barrel = new Barrel(this.game, {
+	        //     key: 'barrel32',
+	        //     x: this.x,
+	        //     y: this.y,
+	        //     marginX: 8,
+	        //     marginY: 1
+	        // })
+	        return _this;
+	    }
+
+	    _createClass(Tank, [{
+	        key: 'newSettings',
+	        value: function newSettings() {
+	            // this.speed = 0;
+	            // this.maxSpeed = 120;
+	            // this.maxBackSpeed = -50;
+	            // this.acc = 0.5;
+	            // this.frictale = 2;
+	        }
+	    }]);
+
+	    return Tank;
+	}(_Tank2.default);
+
+	;
+
+	exports.default = Tank;
+
+/***/ }),
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _Image2 = __webpack_require__(10);
+
+	var _Image3 = _interopRequireDefault(_Image2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Tank = function (_Image) {
+	    _inherits(Tank, _Image);
+
+	    function Tank(game, options) {
+	        _classCallCheck(this, Tank);
+
+	        var _this = _possibleConstructorReturn(this, (Tank.__proto__ || Object.getPrototypeOf(Tank)).call(this, game, options));
+
+	        _this.create();
+	        return _this;
+	    }
+
+	    _createClass(Tank, [{
+	        key: 'create',
+	        value: function create() {
+	            this.body.setAnchor(0.5, 0.5);
+	            this.speed = 0;
+	            this.maxSpeed = 120;
+	            this.maxBackSpeed = -50;
+	            this.acc = 0.5;
+	            this.frictale = 2;
+
+	            this.directions = {
+	                forward: true,
+	                back: false
+	            };
+
+	            this.directionsTimes = {
+	                back: 75
+	            };
+
+	            this.rotateAngle = {
+	                dist: 80,
+	                current: 0,
+	                direction: false
+	            };
+	        }
+
+	        // draw(dt) {
+	        //     // superDraw.call(this, dt);
+	        // }
+
+	    }, {
+	        key: 'update',
+	        value: function update(dt) {
+	            superUpdate.call(this, dt);
+
+	            this.move();
+	        }
+	    }, {
+	        key: 'move',
+	        value: function move() {
+	            var centerX = this.getCenter().x;
+	            var centerY = this.getCenter().y;
+
+	            var skeletonFront = {
+	                bottom: this.game.VAR.map.getPoint(centerX, centerY, centerX + this.width * 3, centerY, this.body.angle),
+	                bottomLeft: this.game.VAR.map.getPoint(centerX, centerY, centerX + this.width * 3, centerY + this.halfHeight - 4, this.body.angle),
+	                bottomRight: this.game.VAR.map.getPoint(centerX, centerY, centerX + this.width * 3, this.y + 4, this.body.angle)
+	            };
+
+	            var skeletonBack = {
+	                topRight: this.game.VAR.map.getPoint(centerX, centerY, centerX - this.halfWidth, centerY, this.body.angle),
+	                topLeft: this.game.VAR.map.getPoint(centerX, centerY, centerX - this.halfWidth, centerY + this.halfHeight - 4, this.body.angle),
+	                top: this.game.VAR.map.getPoint(centerX, centerY, centerX - this.halfWidth, this.y + 4, this.body.angle)
+	            };
+
+	            if (this.game.VAR.map.getNextPosition(skeletonFront) && this.directions.forward) {
+	                if (this.speed <= this.maxSpeed) {
+	                    this.speed += this.acc;
+	                }
+	            } else if (!this.rotateAngle.direction) {
+	                var dirs = ['left', 'right'];
+	                var rand = this.game.rand(0, 1);
+	                this.rotateAngle.direction = dirs[rand];
+	                this.directions.forward = false;
+	            }
+	            if (this.rotateAngle.current <= this.rotateAngle.dist && this.rotateAngle.direction) {
+	                if (this.rotateAngle.direction === 'left') {
+	                    this.body.addAngle(1);
+	                } else {
+	                    this.body.remAngle(1);
+	                }
+
+	                this.rotateAngle.current++;
+	            } else {
+	                this.directions.forward = true;
+	                this.rotateAngle.current = 0;
+	                this.rotateAngle.direction = false;
+	            }
+	            // if (this.game.VAR.map.getNextPosition(skeletonFront) && this.directions.forward) {
+	            //     if (this.speed <= this.maxSpeed) {
+	            //         this.speed += this.acc;
+	            //     }
+	            // } else if (!this.directions.back) {
+	            //     this.directions.forward = false;
+	            //     this.directions.back = true;
+
+	            //     this.speed = 0;
+	            // }
+
+	            // if (this.directions.back) {
+	            //     if (this.speed >= this.maxBackSpeed) {
+	            //         this.speed -= this.acc;
+	            //     }
+	            //     if (this.directionsTimes.back > 0) {
+	            //         this.directionsTimes.back--;
+	            //     } else {
+	            //         this.directions.back = false;
+	            //         this.directionsTimes.back = 75;
+	            //         const dirs = ['left', 'right'];
+	            //         const rand = this.game.rand(0, 1);
+	            //         this.rotateAngle[dirs[rand]] = true;
+	            //     }
+	            // }
+
+	            // if (this.rotateAngle.current <= this.rotateAngle.dist && this.rotateAngle.left) {
+	            //     this.body.addAngle(1);
+	            //     this.rotateAngle.current++;
+	            // } else if (this.rotateAngle.current <= this.rotateAngle.dist && this.rotateAngle.right) {
+	            //     this.body.remAngle(1);
+	            //     this.rotateAngle.current++;
+	            // }
+	            // else {
+	            //     this.directions.forward = true;
+	            //     this.rotateAngle.current = 0;
+	            //     this.rotateAngle.left = false;
+	            //     this.rotateAngle.right = false;
+	            // }
+
+
+	            this.body.velocity.x = Math.cos(this.body.angle) * this.speed;
+	            this.body.velocity.y = Math.sin(this.body.angle) * this.speed;
+	            // if (this.game.keyboard.trigger('W')) {
+	            //     if (this.game.VAR.map.getNextPosition(skeletonFront)) {
+	            //         if (this.speed <= this.maxSpeed) {
+	            //             this.speed += this.acc;
+	            //         }
+	            //     } else {
+	            //         this.speed = 0;
+	            //     }
+	            // } else if (this.game.keyboard.trigger('S')) {
+	            //     if (this.game.VAR.map.getNextPosition(skeletonBack)) {
+	            //         if (this.speed >= this.maxBackSpeed) {
+	            //             this.speed -= this.acc;
+	            //         }
+	            //     } else {
+	            //         this.speed = 0;
+	            //     }
+	            // }
+	            // else if (this.speed > 0 || this.speed < 0) {
+	            //     this.speed -= this.frictale * this.speed < 0 ? -1 : 1;
+
+	            //     if (this.speed === 0 || this.speed === 0.5) {
+	            //         this.speed = 0;
+	            //     }
+	            // }
+
+	            // if (this.game.keyboard.trigger('A')) {
+
+	            //     if (this.game.VAR.map.getNextPosition(skeletonFront)) {
+	            //         this.body.remAngle(1);
+	            //     }
+	            //     else {
+	            //         this.speed = 0;
+	            //     }
+	            // }
+	            // else if (this.game.keyboard.trigger('D')) {
+	            //     if (this.game.VAR.map.getNextPosition(skeletonFront)) {
+	            //         this.body.addAngle(1);
+	            //     }
+	            //     else {
+	            //         this.speed = 0;
+	            //     }
+	            // }
+
+	            // this.body.velocity.x = Math.cos((this.body.angle)) * this.speed;
+	            // this.body.velocity.y = Math.sin((this.body.angle)) * this.speed;
+
+	            // if (this.barrel) {
+	            //     this.barrel.x = this.x + this.barrel.marginX;
+	            //     this.barrel.y = this.y + this.barrel.marginY;
+	            // }
+	        }
+	    }]);
+
+	    return Tank;
+	}(_Image3.default);
+
+	;
+
+	var superUpdate = _Image3.default.prototype.update;
+	var superDraw = _Image3.default.prototype.draw;
+
+	exports.default = Tank;
 
 /***/ })
 /******/ ]);

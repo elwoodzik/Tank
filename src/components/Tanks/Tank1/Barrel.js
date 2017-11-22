@@ -1,4 +1,4 @@
-import AbstractBarrel from '../../Abstract/Barrel';
+import AbstractBarrel from '../../Abstract/Player/Barrel';
 import Bullet from './Bullet';
 import Discharge from './Discharge';
 import Explosion from './Explosion';

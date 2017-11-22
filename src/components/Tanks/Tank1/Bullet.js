@@ -1,4 +1,4 @@
-import AbstractBullet from '../../Abstract/Bullet';
+import AbstractBullet from '../../Abstract/Player/Bullet';
 
 class Bullet extends AbstractBullet {
 

@@ -1,24 +1,24 @@
-import AbstractTank from '../../Abstract/Player/Tank';
-import Barrel from './Barrel';
+import AbstractTank from '../../Abstract/Enemy/Tank';
+
 
 class Tank extends AbstractTank {
 
     constructor(game) {
         super(game, {
-            key: 'tank32',
-            x: 64 * 6,
+            key: 'tank_enemy32',
+            x: 64 * 4,
             y: 64 * 6
         });
 
         this.newSettings();
 
-        this.barrel = new Barrel(this.game, {
-            key: 'barrel32',
-            x: this.x,
-            y: this.y,
-            marginX: 8,
-            marginY: 1
-        })
+        // this.barrel = new Barrel(this.game, {
+        //     key: 'barrel32',
+        //     x: this.x,
+        //     y: this.y,
+        //     marginX: 8,
+        //     marginY: 1
+        // })
     }
 
     newSettings() {

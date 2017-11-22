@@ -1,4 +1,4 @@
-import AbstractTank from '../../Abstract/Tank';
+import AbstractTank from '../../Abstract/Player/Tank';
 import Barrel from './Barrel';
 
 class Tank extends AbstractTank {

@@ -1,4 +1,4 @@
-import Image from '../../../lib/Image';
+import Image from '../../../../lib/Image';
 
 const superUpdate = Image.prototype.update;
 //const superDraw = Image.prototype.draw;

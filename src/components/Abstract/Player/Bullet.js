@@ -1,4 +1,4 @@
-import Image from '../../../lib/Image';
+import Image from '../../../../lib/Image';
 
 class Bullet extends Image {
 

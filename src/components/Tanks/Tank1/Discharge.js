@@ -1,4 +1,4 @@
-import AbstractDischarge from '../../Abstract/Discharge';
+import AbstractDischarge from '../../Abstract/Player/Discharge';
 
 class Discharge extends AbstractDischarge {
 
