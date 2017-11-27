@@ -18,9 +18,13 @@ class Tank extends Image {
         this.life = 5;
     }
 
-    // draw(dt) {
-    //     // superDraw.call(this, dt);
-    // }
+    draw(dt) {
+        this.context.globalCompositeOperation = 'source-over';
+
+
+        superDraw.call(this, dt);
+        this.context.globalCompositeOperation = 'source-atop';
+    }
 
     update(dt) {
         superUpdate.call(this, dt);
@@ -102,6 +106,6 @@ class Tank extends Image {
 };
 
 const superUpdate = Image.prototype.update;
-//const superDraw = Image.prototype.draw;
+const superDraw = Image.prototype.draw;
 
 export default Tank;

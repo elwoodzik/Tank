@@ -21,25 +21,20 @@ class Barrel extends Image {
         this.body.setAnchor(0.3, 0.5);
 
         this.setIndex(10);
-
-        //this.createDischarge();
-
-        // this.preAllocateBullets(500);
-        // this.preAllocateExplosion(500);
     }
 
     update(dt) {
         superUpdate.call(this, dt);
 
-        if(!this.isOutOfScreen){
+        if (!this.isOutOfScreen) {
             this.inRange();
             this.reChargeShot();
         }
     }
 
     inRange() {
-        const dx = Math.abs((this.x - this.game.VAR.tank.getCenter().x) * (this.x - this.game.VAR.tank.getCenter().x)) //Math.pow((this.x - this.game.VAR.tank.getCenter().x), 2);
-        const dy = Math.abs((this.y - this.game.VAR.tank.getCenter().y) * (this.y - this.game.VAR.tank.getCenter().y))
+        const dx = Math.abs((this.x - this.game.VAR.tank.getCenter().x) * (this.x - this.game.VAR.tank.getCenter().x)); //Math.pow((this.x - this.game.VAR.tank.getCenter().x), 2);
+        const dy = Math.abs((this.y - this.game.VAR.tank.getCenter().y) * (this.y - this.game.VAR.tank.getCenter().y));
 
         if (dx + dy <= 352500) {
             this.rotateByMouse(true, 0.02);
@@ -81,7 +76,7 @@ class Barrel extends Image {
 
     shot = () => {
         if (this.currentTimeToShot >= this.shotTime) {
-            //this.discharge.use(this);
+            this.discharge.use(this);
 
             const bullet = this.game.ARR.enemyBulletGroup.spawn();
 

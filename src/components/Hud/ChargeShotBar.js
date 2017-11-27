@@ -7,6 +7,7 @@ class ChargeShotBar extends Bar {
     }
 
     draw(dt) {
+        this.context.globalCompositeOperation = 'source-over';
         superDraw.call(this, dt);
         this.setStatusX(this.game.VAR.tank.barrel.currentTimeToShot);
     }

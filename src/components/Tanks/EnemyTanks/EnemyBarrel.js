@@ -1,5 +1,6 @@
 import AbstractBarrel from '../../Abstract/Enemy/Barrel';
 import Bullet from './EnemyBullet';
+import Discharge from './EnemyDischarge';
 
 class Barrel extends AbstractBarrel {
 
@@ -8,7 +9,7 @@ class Barrel extends AbstractBarrel {
 
         this.newSettings();
 
-        // this.discharge = new Discharge(this.game);
+        this.discharge = new Discharge(this.game);
 
         this.preAllocateBullets(10, Bullet);
 

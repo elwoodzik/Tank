@@ -2,6 +2,7 @@ import Tank1 from '../components/Tanks/Tank1/Tank';
 import Tank2 from '../components/Tanks/Tank2/Tank';
 import TankEnemy from '../components/Tanks/EnemyTanks/EnemyTank';
 import Hud from '../components/Hud/Hud';
+import Fog from '../components/Fog';
 
 class Menu {
 
@@ -10,12 +11,23 @@ class Menu {
     }
 
     create() {
+       
+
         this.game.add.map({
             json: '../../jsons/mapa3.json',
             key: 'rpg'
         }).then((map) => {
             this.game.VAR.map = map;
-          
+
+            const fog = new Fog(this.game, {
+                width: this.game.width,
+                height: this.game.height,
+                static: true,
+                x: 0,
+                y: 0,
+                fill: 'black'
+            });
+
             this.game.VAR.tank = new Tank1(this.game);
             //new Tank2(this.game);
             
