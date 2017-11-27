@@ -102,6 +102,6 @@ class Tank extends Image {
 };
 
 const superUpdate = Image.prototype.update;
-const superDraw = Image.prototype.draw;
+//const superDraw = Image.prototype.draw;
 
 export default Tank;

@@ -10,6 +10,9 @@ import io from 'socket.io';
 
 const server = express();
 
+process.env.NODE_ENV = 'production';
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
 server.set('view engine', 'twig');
 
 server.use('/', homePage);
@@ -20,7 +23,6 @@ server.use(express.static('public'));
 const sock_io = io.listen(server.listen(config.port, config.host, () => {
     console.info('Server listening on ' + config.host + ":" + config.port);
 }))
-let moje = null
 
 
 

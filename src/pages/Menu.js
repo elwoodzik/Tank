@@ -2,7 +2,6 @@ import Tank1 from '../components/Tanks/Tank1/Tank';
 import Tank2 from '../components/Tanks/Tank2/Tank';
 import TankEnemy from '../components/Tanks/EnemyTanks/EnemyTank';
 import Hud from '../components/Hud/Hud';
-let showTank = 0;
 
 class Menu {
 
@@ -20,7 +19,7 @@ class Menu {
             this.game.VAR.tank = new Tank1(this.game);
             //new Tank2(this.game);
             
-            this.createEnemies(15, TankEnemy);
+            this.createEnemies(10, TankEnemy);
             //       
             this.game.setPortView(2560, 2560);
             //

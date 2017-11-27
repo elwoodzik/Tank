@@ -6,12 +6,12 @@ class Tank extends AbstractTank {
     constructor(game, options) {
         super(game, {
             key: 'tank_enemy32',
-            x: 32 * game.rand(6, 50),
-            y: 32 * game.rand(6, 50)
+            x: 32 * game.rand(16, 70),
+            y: 32 * game.rand(16, 70)
         });
 
         this.newSettings();
-
+        
         this.barrel = new Barrel(this.game, {
             key: 'barrel_enemy32',
             x: this.x,
@@ -22,6 +22,7 @@ class Tank extends AbstractTank {
     }
 
     newSettings() {
+        
         // this.speed = 0;
         // this.maxSpeed = 120;
         // this.maxBackSpeed = -50;

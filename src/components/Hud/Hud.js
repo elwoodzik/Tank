@@ -22,7 +22,9 @@ class Hud {
         this.game.VAR.enemiesText = this.game.add.text({
             text: this.game.ARR.enemyGroup.entities.length,
             static: true,
-            color: 'white'
+            color: 'white',
+            y: 50,
+            x: 50
         })
 
     }

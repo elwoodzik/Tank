@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon -e js,twig,scss --exec babel-node server.js",
     "dev": "webpack -w --progress --colors",
-    "prod": "webpack -w --progress --colors --config ./webpack.prod.js"
+    "prod": "webpack -p -w --progress --colors"
   },
   "repository": {
     "type": "git",

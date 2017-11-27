@@ -1,6 +1,6 @@
-let webpack = require('webpack');
+const webpack = require('webpack');
+const environments = 'production'; // 'production' & 'development';
 
-const LiveReloadPlugin = require('webpack-livereload-plugin');
 module.exports = {
     entry: {
         "Leya": "./src/index.js",
@@ -22,12 +22,12 @@ module.exports = {
         ]
     },
     plugins: [
-        // new webpack.optimize.UglifyJsPlugin({
-        //     include: /\.min\.js$/,
-        //     minimize: true,
-        //     sourceMap: false,
-        //     debug: false
-        // })
+        // new webpack.DefinePlugin({
+        //     'process.env.NODE_ENV': JSON.stringify(environments)
+        // }),
+        // new webpack.optimize.UglifyJsPlugin({ comments: false,  minimize: false,
+        //     sourceMap: true,
+        //     debug: false })
     ]
 };
 
