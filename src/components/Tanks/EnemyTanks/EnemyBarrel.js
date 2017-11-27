@@ -1,7 +1,5 @@
-import AbstractBarrel from '../../Abstract/Player/Barrel';
-import Bullet from './Bullet';
-import Discharge from './Discharge';
-import Explosion from './Explosion';
+import AbstractBarrel from '../../Abstract/Enemy/Barrel';
+import Bullet from './EnemyBullet';
 
 class Barrel extends AbstractBarrel {
 
@@ -10,11 +8,11 @@ class Barrel extends AbstractBarrel {
 
         this.newSettings();
 
-        this.discharge = new Discharge(this.game);
+        // this.discharge = new Discharge(this.game);
 
         this.preAllocateBullets(10, Bullet);
 
-        this.preAllocateExplosion(10, Explosion);
+        // this.preAllocateExplosion(10, Explosion);
     }
 
     //  SĄ TO DOMYŚLNE USTAWIENIA, TUTAJ MOŻNA JE NADPISAĆ

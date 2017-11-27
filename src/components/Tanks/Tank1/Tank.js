@@ -6,8 +6,8 @@ class Tank extends AbstractTank {
     constructor(game) {
         super(game, {
             key: 'tank32',
-            x: 64 * 6,
-            y: 64 * 6
+            x: 64 * 2,
+            y: 64 * 2
         });
 
         this.newSettings();

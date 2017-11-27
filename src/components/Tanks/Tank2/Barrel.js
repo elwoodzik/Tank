@@ -12,9 +12,9 @@ class Barrel extends AbstractBarrel {
 
         this.discharge = new Discharge(this.game);
 
-        this.preAllocateBullets(500, Bullet);
+        this.preAllocateBullets(10, Bullet);
 
-        this.preAllocateExplosion(500, Explosion);
+        this.preAllocateExplosion(10, Explosion);
     }
 
     //  SĄ TO DOMYŚLNE USTAWIENIA, TUTAJ MOŻNA JE NADPISAĆ

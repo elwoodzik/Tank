@@ -15,6 +15,7 @@ class Tank extends Image {
         this.maxBackSpeed = -50;
         this.acc = 0.5;
         this.frictale = 2;
+        this.life = 5;
     }
 
     // draw(dt) {
@@ -42,7 +43,11 @@ class Tank extends Image {
             topLeft: this.game.VAR.map.getPoint(centerX, centerY, centerX - this.halfWidth, centerY + this.halfHeight - 4, this.body.angle),
             top: this.game.VAR.map.getPoint(centerX, centerY, centerX - this.halfWidth, this.y + 4, this.body.angle),
         }
-
+        if (this.speed > 0) {
+            if (!this.game.VAR.map.getNextPosition(skeletonFront)) {
+                this.speed = 0;
+            }
+        }
         if (this.game.keyboard.trigger('W')) {
             if (this.game.VAR.map.getNextPosition(skeletonFront)) {
                 if (this.speed <= this.maxSpeed) {
@@ -93,7 +98,6 @@ class Tank extends Image {
             this.barrel.x = this.x + this.barrel.marginX;
             this.barrel.y = this.y + this.barrel.marginY;
         }
-
     }
 };
 

@@ -33,26 +33,24 @@ class Bullet extends Image {
 
         if (!this.game.VAR.map.getNextPosition(skeleton)) {
             this.spawExplosion();
-            this.game.ARR.bulletGroup.recycle(this);
+            this.game.ARR.enemyBulletGroup.recycle(this);
         }
 
         this.lifeTime--;
 
         if (this.lifeTime <= 0) {
             this.spawExplosion();
-            this.game.ARR.bulletGroup.recycle(this);
+            this.game.ARR.enemyBulletGroup.recycle(this);
         }
 
-        this.game.physic.collide(this, this.game.ARR.enemyGroup.entities, (bullet, tank) => {
+        this.game.physic.collide(this, this.game.VAR.tank, (bullet, tank) => {
             this.spawExplosion();
-            this.game.ARR.bulletGroup.recycle(this);
-            this.game.VAR.enemiesText.rem(1);
+            this.game.ARR.enemyBulletGroup.recycle(this);
             tank.life--;
             if (tank.life <= 0) {
-                this.game.ARR.enemyGroup.recycle(tank);
                 tank.barrel.destroy();
+                tank.destroy();
             }
-
         })
         // this.rect.x = skeleton.front.x;
         // this.rect.y = skeleton.front.y;

@@ -18,6 +18,13 @@ class Hud {
             static: true,
             fill: 'red'
         });
+
+        this.game.VAR.enemiesText = this.game.add.text({
+            text: this.game.ARR.enemyGroup.entities.length,
+            static: true,
+            color: 'white'
+        })
+
     }
 };
 

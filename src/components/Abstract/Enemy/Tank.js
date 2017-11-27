@@ -11,14 +11,16 @@ class Tank extends Image {
     create() {
         this.body.setAnchor(0.5, 0.5);
         this.speed = 0;
-        this.maxSpeed = 120;
-        this.maxBackSpeed = -50;
+        this.maxSpeed = 80;
+        this.maxBackSpeed = -10;
         this.acc = 0.5;
         this.frictale = 2;
+        this.life = 1;
 
         this.directions = {
             forward: true,
-            back: false
+            back: false,
+            angle: true
         }
 
         this.directionsTimes = {
@@ -26,7 +28,8 @@ class Tank extends Image {
         }
 
         this.rotateAngle = {
-            dist: 80,
+            dist: 90,
+            distOnMove: 27,
             current: 0,
             direction: false,
         }
@@ -40,6 +43,72 @@ class Tank extends Image {
         superUpdate.call(this, dt);
 
         this.move();
+        
+        if (this.barrel) {
+            this.barrel.x = this.x + this.barrel.marginX;
+            this.barrel.y = this.y + this.barrel.marginY;
+        }
+    }
+
+    changeRotateOnStop(skeleton) {
+        if (this.rotateAngle.current <= this.rotateAngle.dist) {
+            this.rotateAngle.current++;
+            if (this.rotateAngle.direction === 'left') {
+                this.body.addAngle(1);
+            } else {
+                this.body.remAngle(1);
+            }
+            if (this.speed >= this.maxBackSpeed) {
+                this.speed -= this.frictale;
+            }
+        }
+        else if (!this.game.VAR.map.getNextPosition(skeleton)) {
+            this.rotateAngle.current = 0;
+        } else {
+            this.directions.forward = true;
+            this.directions.back = false;
+            this.rotateAngle.direction = false;
+            this.directions.angle = true;
+        }
+    }
+
+    changeRotateOnMove(skeleton) {
+        if (this.rotateAngle.current <= this.rotateAngle.distOnMove) {
+            this.rotateAngle.current++;
+            if (this.rotateAngle.direction === 'left') {
+                this.body.addAngle(1);
+            } else {
+                this.body.remAngle(1);
+            }
+        }
+        else if (!this.game.VAR.map.getNextPosition(skeleton)) {
+            this.rotateAngle.current = 0;
+        } else {
+            this.rotateAngle.direction = false;
+            this.directions.angle = true;
+        }
+    }
+
+    getDirection() {
+        const dirs = ['right', 'left'];
+        const rand = this.game.rand(0, 1);
+        this.rotateAngle.direction = dirs[rand];
+    }
+
+    moveStop() {
+        this.directions.forward = false;
+        this.directions.back = true;
+        this.speed = 0;
+    }
+
+    moveAngle() {
+        this.directions.angle = false;
+    }
+
+    moveForward() {
+        if (this.speed <= this.maxSpeed) {
+            this.speed += this.acc;
+        }
     }
 
     move() {
@@ -52,38 +121,52 @@ class Tank extends Image {
             bottomRight: this.game.VAR.map.getPoint(centerX, centerY, centerX + this.width * 3, this.y + 4, this.body.angle)
         }
 
-        const skeletonBack = {
-            topRight: this.game.VAR.map.getPoint(centerX, centerY, centerX - this.halfWidth, centerY, this.body.angle),
-            topLeft: this.game.VAR.map.getPoint(centerX, centerY, centerX - this.halfWidth, centerY + this.halfHeight - 4, this.body.angle),
-            top: this.game.VAR.map.getPoint(centerX, centerY, centerX - this.halfWidth, this.y + 4, this.body.angle),
+        const skeletonMask = {
+            bottom: this.game.VAR.map.getPoint(centerX, centerY, centerX + this.halfWidth, centerY, this.body.angle),
+            bottomLeft: this.game.VAR.map.getPoint(centerX, centerY, centerX + this.halfWidth, centerY + this.halfHeight - 4, this.body.angle),
+            bottomRight: this.game.VAR.map.getPoint(centerX, centerY, centerX + this.halfWidth, this.y + 4, this.body.angle)
         }
 
-
-        if (this.game.VAR.map.getNextPosition(skeletonFront) && this.directions.forward) {
-            if (this.speed <= this.maxSpeed) {
-                this.speed += this.acc;
+        if (this.game.VAR.map.getNextPosition(skeletonMask) && this.directions.forward) {
+            this.moveForward();
+            if (!this.game.VAR.map.getNextPosition(skeletonFront) && this.directions.angle) {
+                this.directions.angle = false;
+                this.getDirection();
+            } else if (this.rotateAngle.direction) {
+                this.changeRotateOnMove(skeletonFront);
             }
-        } else if (!this.rotateAngle.direction) {
-            const dirs = ['left', 'right'];
-            const rand = this.game.rand(0, 1);
-            this.rotateAngle.direction = dirs[rand];
-            this.directions.forward = false;
+        } else if (!this.directions.back) {
+            this.moveStop();
+            this.getDirection();
+        } else if (this.directions.back) {
+            this.changeRotateOnStop(skeletonMask);
+        }
 
-        }
-        if (this.rotateAngle.current <= this.rotateAngle.dist && this.rotateAngle.direction) {
-            if (this.rotateAngle.direction === 'left') {
-                this.body.addAngle(1);
-            } else {
-                this.body.remAngle(1);
-            }
 
-            this.rotateAngle.current++;
-        }
-        else {
-            this.directions.forward = true;
-            this.rotateAngle.current = 0;
-            this.rotateAngle.direction = false;
-        }
+        // if (this.game.VAR.map.getNextPosition(skeletonFront) && this.directions.forward) {
+        //     if (this.speed <= this.maxSpeed) {
+        //         this.speed += this.acc;
+        //     }
+        // }
+        // else if (!this.rotateAngle.direction) {
+        //     const dirs = ['right'];
+        //     const rand = this.game.rand(0, 1);
+        //     this.rotateAngle.direction = dirs[rand];
+        //     this.directions.forward = false;
+        // }
+        // if (this.rotateAngle.direction) {
+        //     this.changeRotate(this.rotateAngle.direction, skeletonFront);
+        // }
+        // else {
+        //     this.directions.forward = true;
+        //     this.rotateAngle.current = 0;
+        //     this.rotateAngle.direction = false;
+        // }
+
+
+
+
+
         // if (this.game.VAR.map.getNextPosition(skeletonFront) && this.directions.forward) {
         //     if (this.speed <= this.maxSpeed) {
         //         this.speed += this.acc;
