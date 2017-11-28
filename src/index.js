@@ -44,7 +44,7 @@ class Game {
         game.keyboard.initialize();
 
         game.state.add('Menu', Menu);
-        game.state.start('Menu');
+        game.state.start('Menu', { data: 'test' });
     }
 };
 

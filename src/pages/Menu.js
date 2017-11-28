@@ -12,7 +12,8 @@ class Menu {
         this.game = game;
     }
 
-    create() {
+    create(data) {
+        console.log(data)
         this.game.add.map({
             json: '../../jsons/mapa3.json',
             key: 'rpg'
