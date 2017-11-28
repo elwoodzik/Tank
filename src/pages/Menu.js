@@ -68,13 +68,19 @@ class Menu {
 
         const translateY = 250;
         const translateX = 250;
+        let radius = 70;
+        let alfa = 0.5
 
-        ctx.globalAlpha = 0.8;
-        ctx.beginPath();
-        ctx.arc(translateX, translateY, 150, 0, Math.PI * 2);
-        ctx.fillStyle = 'black';
-        ctx.fill();
-        ctx.closePath();
+        for (let i = 0; i < 50; i++) {
+            ctx.globalAlpha = alfa
+            ctx.beginPath();
+            ctx.arc(translateX, translateY, radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'black';
+            ctx.fill();
+            ctx.closePath();
+            radius += 2.5;
+            alfa -= 0.01;
+        }
 
         new FlashLightArc(this.game, {
             key: ctx.canvas,
