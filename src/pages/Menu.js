@@ -3,6 +3,8 @@ import Tank2 from '../components/Tanks/Tank2/Tank';
 import TankEnemy from '../components/Tanks/EnemyTanks/EnemyTank';
 import Hud from '../components/Hud/Hud';
 import Fog from '../components/Fog';
+import FlashLight from '../components/FlashLight/FlashLight';
+import FlashLightArc from '../components/FlashLight/FlashLightArc';
 
 class Menu {
 
@@ -11,11 +13,9 @@ class Menu {
     }
 
     create() {
-       
-
         this.game.add.map({
-            json: '../../jsons/mapa3.json',
-            key: 'rpg'
+            json: '../../jsons/mapa5.json',
+            key: 'mapa2'
         }).then((map) => {
             this.game.VAR.map = map;
 
@@ -30,14 +30,17 @@ class Menu {
 
             this.game.VAR.tank = new Tank1(this.game);
             //new Tank2(this.game);
-            
+
+            this.generateFlashLight();
+            this.generateFlashLightArc();
+
             this.createEnemies(10, TankEnemy);
             //       
             this.game.setPortView(2560, 2560);
             //
             this.game.add.camera({
                 followed: this.game.VAR.tank
-            })
+            });
             //
             this.game.sortByIndex();
 
@@ -56,6 +59,64 @@ class Menu {
 
     update(dt) {
 
+    }
+
+    generateFlashLightArc() {
+        let ctx = document.createElement("canvas").getContext("2d");
+        ctx.canvas.width = this.game.width;
+        ctx.canvas.height = this.game.height;
+
+        const translateY = 250;
+        const translateX = 250;
+
+        ctx.globalAlpha = 0.8;
+        ctx.beginPath();
+        ctx.arc(translateX, translateY, 150, 0, Math.PI * 2);
+        ctx.fillStyle = 'black';
+        ctx.fill();
+        ctx.closePath();
+
+        new FlashLightArc(this.game, {
+            key: ctx.canvas,
+            x: 0,
+            y: 0,
+            translateY: translateY,
+            translateX: translateX,
+        }).setIndex(1);
+
+    }
+
+    generateFlashLight() {
+        let ctx = document.createElement("canvas").getContext("2d");
+        ctx.canvas.width = this.game.width;
+        ctx.canvas.height = this.game.height;
+        let y = 250;
+        let x = 525
+        let yDec = 250;
+        let alpha = 0.5;
+
+        for (let i = 0; i < 50; i++) {
+            ctx.globalAlpha = alpha;
+            ctx.fillStyle = 'black';
+            ctx.beginPath();
+            ctx.moveTo(0, 250);
+            ctx.lineTo(x, yDec);
+            ctx.lineTo(x, y);
+
+            ctx.fill();
+            ctx.closePath();
+            y += 5;
+            x += 2.5;
+            yDec -= 5;
+            alpha -= 0.01;
+        }
+
+        new FlashLight(this.game, {
+            key: ctx.canvas,
+            x: 0,
+            y: 0,
+            translateY: 250
+        }).setIndex(1);
     }
 };
 

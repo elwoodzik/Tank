@@ -34,6 +34,7 @@ class Game {
             'explo': '/images/explo.png',
             'barrel128': '/images/barrel128.png',
             'tank128': '/images/tank128.png',
+            'mapa2': '/images/rp2.png',
         }
     }
 
