@@ -14,8 +14,8 @@ class Menu {
 
     create() {
         this.game.add.map({
-            json: '../../jsons/mapa5.json',
-            key: 'mapa2'
+            json: '../../jsons/mapa_luk.json',
+            key: 'mapaluk'
         }).then((map) => {
             this.game.VAR.map = map;
 
