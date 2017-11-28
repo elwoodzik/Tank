@@ -27,9 +27,14 @@ class Game {
             'rpg': '/images/rp.png',
             'rpg64': '/images/rp64.png',
             'tank32': '/images/tank_32.png',
+            'tank_enemy32': '/images/tank_enemy_32.png',
             'barrel32': '/images/barrel_32.png',
+            'barrel_enemy32': '/images/barrel_enemy_32.png',
             'fireShot32': '/images/fireShot_32.png',
             'explo': '/images/explo.png',
+            'barrel128': '/images/barrel128.png',
+            'tank128': '/images/tank128.png',
+            'mapa2': '/images/rp2.png',
             'mapaluk': '/images/rp4.png',
         }
     }

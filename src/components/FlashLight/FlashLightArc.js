@@ -10,6 +10,7 @@ class FlashLightArc extends Image {
     update(dt) {
         this.x = this.game.VAR.tank.getCenter().x - this.translateX;
         this.y = this.game.VAR.tank.getCenter().y - this.translateY;
+        
         superUpdate.call(this, dt);
     }
 
