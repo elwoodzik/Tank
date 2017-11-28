@@ -34,7 +34,7 @@ class Menu {
             this.generateFlashLight();
             this.generateFlashLightArc();
 
-            this.createEnemies(0, TankEnemy);
+            this.createEnemies(10, TankEnemy);
             //       
             this.game.setPortView(2560, 2560);
             //
@@ -96,24 +96,24 @@ class Menu {
         let ctx = document.createElement("canvas").getContext("2d");
         ctx.canvas.width = this.game.width;
         ctx.canvas.height = this.game.height;
-        let y = 250;
-        let x = 525;
-        let yDec = 250;
+        let y = 300;
+        let x = 525
+        let yDec = 300;
         let alpha = 0.5;
 
-        for (let i = 0; i < 50; i++) {
+        for (let i = 0; i < 60; i++) {
             ctx.globalAlpha = alpha;
-            ctx.fillStyle = 'black';
             ctx.beginPath();
-            ctx.moveTo(0, 250);
+            ctx.moveTo(0, 300);
             ctx.lineTo(x, yDec);
             ctx.lineTo(x, y);
 
             ctx.fill();
             ctx.closePath();
             y += 5;
-            x += 2.5;
             yDec -= 5;
+            x += 2.5;
+
             alpha -= 0.01;
         }
 
@@ -121,7 +121,7 @@ class Menu {
             key: ctx.canvas,
             x: 0,
             y: 0,
-            translateY: 250
+            translateY: 300
         }).setIndex(1);
     }
 };

@@ -5,6 +5,7 @@ class FlashLight extends Image {
     constructor(game, options) {
         super(game, options);
         this.translateY = options.translateY || 0;
+        this.static = true;
     }
 
     update(dt) {
@@ -13,13 +14,14 @@ class FlashLight extends Image {
         this.y = a.y;
         this.body.angle = this.game.VAR.tank.barrel.body.angle;
         superUpdate.call(this, dt);
-       
     }
 
     draw(dt) {
-
         this.context.globalCompositeOperation = 'destination-over';
+        this.context.globalAlpha = 0.6;
+        this.context.fillStyle='red';
         superDraw.call(this, dt);
+        this.context.globalAlpha = 1;
         this.context.globalCompositeOperation = 'source-atop';
     }
 };

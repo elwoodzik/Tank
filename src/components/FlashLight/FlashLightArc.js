@@ -16,7 +16,9 @@ class FlashLightArc extends Image {
 
     draw(dt) {
         this.context.globalCompositeOperation = 'destination-over';
+        this.context.globalAlpha = 0.8;
         superDraw.call(this, dt);
+        this.context.globalAlpha = 1;
         this.context.globalCompositeOperation = 'source-atop';
     }
 };

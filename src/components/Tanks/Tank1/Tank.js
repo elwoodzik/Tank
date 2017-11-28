@@ -7,7 +7,7 @@ class Tank extends AbstractTank {
         super(game, {
             key: 'tank32',
             x: 64 * 2,
-            y: 64 * 2
+            y: 64 * 6
         });
 
         this.newSettings();
@@ -23,7 +23,7 @@ class Tank extends AbstractTank {
 
     newSettings() {
         // this.speed = 0;
-         this.maxSpeed = 220;
+        // this.maxSpeed = 120;
         // this.maxBackSpeed = -50;
         // this.acc = 0.5;
         // this.frictale = 2;
