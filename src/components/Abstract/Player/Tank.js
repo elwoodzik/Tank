@@ -15,7 +15,8 @@ class Tank extends Image {
         this.maxBackSpeed = -50;
         this.acc = 0.5;
         this.frictale = 2;
-        this.life = 5;
+        this.lifeMax = 5;
+        this.life = this.lifeMax;
     }
 
     draw(dt) {

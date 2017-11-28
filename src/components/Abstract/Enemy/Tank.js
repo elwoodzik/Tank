@@ -17,7 +17,8 @@ class Tank extends Image {
         this.maxBackSpeed = -10;
         this.acc = 0.5;
         this.frictale = 2;
-        this.life = 1;
+        this.lifeMax = 1;
+        this.life = this.lifeMax;
 
         this.directions = {
             forward: true,

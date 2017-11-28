@@ -1,5 +1,5 @@
 import ChargeShotBar from './ChargeShotBar';
-
+import LifeBar from './LifeBar';
 class Hud {
 
     constructor(game) {
@@ -8,16 +8,8 @@ class Hud {
     }
 
     create() {
-        new ChargeShotBar(this.game, {
-            min: this.game.VAR.tank.barrel.currentTimeToShot,
-            max: this.game.VAR.tank.barrel.shotTime,
-            width: 150,
-            height: 25,
-            x: this.game.width - 200,
-            y: 680,
-            static: true,
-            fill: 'red'
-        });
+        new ChargeShotBar(this.game);
+        new LifeBar(this.game);
 
         this.game.VAR.enemiesText = this.game.add.text({
             text: this.game.ARR.enemyGroup.entities.length,
@@ -25,7 +17,7 @@ class Hud {
             color: 'white',
             y: 50,
             x: 50
-        })
+        }).setIndex(100);
 
     }
 };

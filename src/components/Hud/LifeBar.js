@@ -1,17 +1,17 @@
 import Bar from '../../../lib/Bar';
 
-class ChargeShotBar extends Bar {
+class LifeBar extends Bar {
 
     constructor(game, options) {
         super(game, {
-            min: game.VAR.tank.barrel.currentTimeToShot,
-            max: game.VAR.tank.barrel.shotTime,
+            min: game.VAR.tank.life,
+            max: game.VAR.tank.lifeMax,
             width: 150,
             height: 25,
-            x: game.width - 200,
+            x: 200,
             y: 680,
             static: true,
-            fill: 'red',
+            fill: 'green',
             stroke: 'white'
         });
 
@@ -19,11 +19,10 @@ class ChargeShotBar extends Bar {
     }
 
     draw(dt) {
-        this.context.globalCompositeOperation = 'source-atop';
         superDraw.call(this, dt);
-        this.setStatusX(this.game.VAR.tank.barrel.currentTimeToShot);
+        this.setStatusX(this.game.VAR.tank.life);
     }
 };
 
 const superDraw = Bar.prototype.draw;
-export default ChargeShotBar;
+export default LifeBar;

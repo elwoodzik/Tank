@@ -19,7 +19,6 @@ class FlashLight extends Image {
     draw(dt) {
         this.context.globalCompositeOperation = 'destination-over';
         this.context.globalAlpha = 0.6;
-        this.context.fillStyle='red';
         superDraw.call(this, dt);
         this.context.globalAlpha = 1;
         this.context.globalCompositeOperation = 'source-atop';

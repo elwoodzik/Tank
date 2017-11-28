@@ -18,23 +18,12 @@ class Menu {
             key: 'rpg'
         }).then((map) => {
             this.game.VAR.map = map;
-
-            const fog = new Fog(this.game, {
-                width: this.game.width,
-                height: this.game.height,
-                static: true,
-                x: 0,
-                y: 0,
-                fill: 'black'
-            });
-
             this.game.VAR.tank = new Tank1(this.game);
-            //new Tank2(this.game);
 
             this.generateFlashLight();
             this.generateFlashLightArc();
 
-            this.createEnemies(10, TankEnemy);
+            this.createEnemies(30, TankEnemy);
             //       
             this.game.setPortView(2560, 2560);
             //
@@ -42,23 +31,25 @@ class Menu {
                 followed: this.game.VAR.tank
             });
             //
-            this.game.sortByIndex();
+            new Fog(this.game);
 
             this.game.VAR.hud = new Hud(this.game);
+
+            this.game.sortByIndex();
         })
-    }
-
-    createEnemies(count, ClassName) {
-        this.game.ARR.enemyGroup = this.game.add.group();
-        for (let i = 0; i < count; i++) {
-            const explosion = new ClassName(this.game);
-
-            this.game.ARR.enemyGroup.add(explosion);
-        }
     }
 
     update(dt) {
 
+    }
+
+    createEnemies(count, ClassName) {
+        this.game.ARR.enemyGroup = this.game.add.group();
+
+        for (let i = 0; i < count; i++) {
+            const explosion = new ClassName(this.game);
+            this.game.ARR.enemyGroup.add(explosion);
+        }
     }
 
     generateFlashLightArc() {
@@ -69,10 +60,10 @@ class Menu {
         const translateY = 250;
         const translateX = 250;
         let radius = 70;
-        let alfa = 0.5
+        let alfa = 0.5;
 
         for (let i = 0; i < 50; i++) {
-            ctx.globalAlpha = alfa
+            ctx.globalAlpha = alfa;
             ctx.beginPath();
             ctx.arc(translateX, translateY, radius, 0, Math.PI * 2);
             ctx.fillStyle = 'black';
@@ -89,7 +80,6 @@ class Menu {
             translateY: translateY,
             translateX: translateX,
         }).setIndex(1);
-
     }
 
     generateFlashLight() {
