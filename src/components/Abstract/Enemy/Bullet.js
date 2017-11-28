@@ -31,7 +31,7 @@ class Bullet extends Image {
             front: this.game.VAR.map.getPoint(centerX, centerY, centerX + this.halfWidth, centerY, this.body.angle)
         }
 
-        if (!this.game.VAR.map.getNextPosition(skeleton)) {
+        if (this.game.VAR.map.getNextPosition(skeleton) === 'solid') {
             this.spawExplosion();
             this.game.ARR.enemyBulletGroup.recycle(this);
         }

@@ -23,7 +23,7 @@ class Tank extends AbstractTank {
 
     newSettings() {
         // this.speed = 0;
-        // this.maxSpeed = 120;
+         this.maxSpeed = 220;
         // this.maxBackSpeed = -50;
         // this.acc = 0.5;
         // this.frictale = 2;

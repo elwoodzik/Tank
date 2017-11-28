@@ -31,7 +31,7 @@ class Bullet extends Image {
             front: this.game.VAR.map.getPoint(centerX, centerY, centerX + this.halfWidth, centerY, this.body.angle)
         }
 
-        if (!this.game.VAR.map.getNextPosition(skeleton)) {
+        if (this.game.VAR.map.getNextPosition(skeleton) === 'solid' ) {
             this.spawExplosion();
             this.game.ARR.bulletGroup.recycle(this);
         }
@@ -54,8 +54,6 @@ class Bullet extends Image {
             }
 
         })
-        // this.rect.x = skeleton.front.x;
-        // this.rect.y = skeleton.front.y;
     }
 
     move(barrel) {

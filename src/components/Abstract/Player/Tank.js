@@ -48,12 +48,12 @@ class Tank extends Image {
             top: this.game.VAR.map.getPoint(centerX, centerY, centerX - this.halfWidth, this.y + 4, this.body.angle),
         }
         if (this.speed > 0) {
-            if (!this.game.VAR.map.getNextPosition(skeletonFront)) {
+            if (this.game.VAR.map.getNextPosition(skeletonFront) === 'solid' || this.game.VAR.map.getNextPosition(skeletonFront) === 'flaying') {
                 this.speed = 0;
             }
         }
         if (this.game.keyboard.trigger('W')) {
-            if (this.game.VAR.map.getNextPosition(skeletonFront)) {
+            if (this.game.VAR.map.getNextPosition(skeletonFront) === 'empty') {
                 if (this.speed <= this.maxSpeed) {
                     this.speed += this.acc;
                 }
@@ -61,7 +61,7 @@ class Tank extends Image {
                 this.speed = 0;
             }
         } else if (this.game.keyboard.trigger('S')) {
-            if (this.game.VAR.map.getNextPosition(skeletonBack)) {
+            if (this.game.VAR.map.getNextPosition(skeletonBack) === 'empty') {
                 if (this.speed >= this.maxBackSpeed) {
                     this.speed -= this.acc;
                 }
@@ -79,7 +79,7 @@ class Tank extends Image {
 
         if (this.game.keyboard.trigger('A')) {
 
-            if (this.game.VAR.map.getNextPosition(skeletonFront)) {
+            if (this.game.VAR.map.getNextPosition(skeletonFront) === 'empty') {
                 this.body.remAngle(1);
             }
             else {
@@ -87,7 +87,7 @@ class Tank extends Image {
             }
         }
         else if (this.game.keyboard.trigger('D')) {
-            if (this.game.VAR.map.getNextPosition(skeletonFront)) {
+            if (this.game.VAR.map.getNextPosition(skeletonFront) === 'empty') {
                 this.body.addAngle(1);
             }
             else {

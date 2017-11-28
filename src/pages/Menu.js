@@ -14,8 +14,8 @@ class Menu {
 
     create() {
         this.game.add.map({
-            json: '../../jsons/mapa_luk.json',
-            key: 'mapaluk'
+            json: '../../jsons/mapa3.json',
+            key: 'rpg'
         }).then((map) => {
             this.game.VAR.map = map;
 
@@ -34,7 +34,7 @@ class Menu {
             this.generateFlashLight();
             this.generateFlashLightArc();
 
-            this.createEnemies(10, TankEnemy);
+            this.createEnemies(0, TankEnemy);
             //       
             this.game.setPortView(2560, 2560);
             //
@@ -97,7 +97,7 @@ class Menu {
         ctx.canvas.width = this.game.width;
         ctx.canvas.height = this.game.height;
         let y = 250;
-        let x = 525
+        let x = 525;
         let yDec = 250;
         let alpha = 0.5;
 

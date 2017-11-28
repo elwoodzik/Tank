@@ -64,7 +64,7 @@ class Tank extends Image {
                 this.speed -= this.frictale;
             }
         }
-        else if (!this.game.VAR.map.getNextPosition(skeleton)) {
+        else if (this.game.VAR.map.getNextPosition(skeleton) === 'solid' || this.game.VAR.map.getNextPosition(skeleton) === 'flaying') {
             this.rotateAngle.current = 0;
         } else {
             this.directions.forward = true;
@@ -83,7 +83,7 @@ class Tank extends Image {
                 this.body.remAngle(1);
             }
         }
-        else if (!this.game.VAR.map.getNextPosition(skeleton)) {
+        else if (this.game.VAR.map.getNextPosition(skeleton) === 'solid' || this.game.VAR.map.getNextPosition(skeleton) === 'flaying') {
             this.rotateAngle.current = 0;
         } else {
             this.rotateAngle.direction = false;
@@ -129,9 +129,9 @@ class Tank extends Image {
             bottomRight: this.game.VAR.map.getPoint(centerX, centerY, centerX + this.halfWidth, this.y + 4, this.body.angle)
         }
 
-        if (this.game.VAR.map.getNextPosition(skeletonMask) && this.directions.forward) {
+        if (this.game.VAR.map.getNextPosition(skeletonMask) === 'empty' && this.directions.forward) {
             this.moveForward();
-            if (!this.game.VAR.map.getNextPosition(skeletonFront) && this.directions.angle) {
+            if ((this.game.VAR.map.getNextPosition(skeletonFront) === 'solid' || this.game.VAR.map.getNextPosition(skeletonFront) === 'flaying') && this.directions.angle) {
                 this.directions.angle = false;
                 this.getDirection();
             } else if (this.rotateAngle.direction) {
