@@ -5,6 +5,7 @@ import Hud from '../components/Hud/Hud';
 import Fog from '../components/Fog';
 import FlashLight from '../components/FlashLight/FlashLight';
 import FlashLightArc from '../components/FlashLight/FlashLightArc';
+import Fire from '../components/Fire';
 
 class Menu {
 
@@ -13,7 +14,6 @@ class Menu {
     }
 
     create(data) {
-        console.log(data)
         this.game.add.map({
             json: '../../jsons/mapa3.json',
             key: 'rpg'
@@ -23,6 +23,7 @@ class Menu {
 
             this.generateFlashLight();
             this.generateFlashLightArc();
+            this.preAllocateFire(30, Fire);
 
             this.createEnemies(30, TankEnemy);
             //       
@@ -114,6 +115,20 @@ class Menu {
             y: 0,
             translateY: 300
         }).setIndex(1);
+    }
+
+    preAllocateFire(count, ClassName) {
+        if (!ClassName) {
+            throw "Podaj drugi argument, Trzeba przekazac Classe jaka chce sie utworzyc";
+        }
+
+        this.game.ARR.fireGroup = this.game.add.group();
+
+        for (let i = 0; i < count; i++) {
+            const fire = new ClassName(this.game);
+
+            this.game.ARR.fireGroup.add(fire, true);
+        }
     }
 };
 

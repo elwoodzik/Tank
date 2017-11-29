@@ -33,6 +33,7 @@ class Bullet extends Image {
 
         if (this.game.VAR.map.getNextPosition(skeleton) === 'solid') {
             this.spawExplosion();
+            this.showFire();
             this.game.ARR.enemyBulletGroup.recycle(this);
         }
 
@@ -62,6 +63,15 @@ class Bullet extends Image {
         this.x = barrel.x + this.marginX + Math.cos(this.body.angle) * barrel.barrelLength;
         this.y = barrel.y + this.marginY + Math.sin(this.body.angle) * barrel.barrelLength;
         this.body.setVelocity(Math.cos(this.body.angle) * this.speed, Math.sin(this.body.angle) * this.speed);
+    }
+
+    showFire() {
+        const fire = this.game.ARR.fireGroup.spawn();
+
+        if (fire) {
+            fire.x = this.getCenter().x - this.marginX;
+            fire.y = this.getCenter().y - this.marginY - 5;
+        }
     }
 
     spawExplosion() {

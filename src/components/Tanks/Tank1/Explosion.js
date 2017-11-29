@@ -38,7 +38,7 @@ class Explosion extends Sprite {
         this.animations.play(
             {
                 key: 'destroy',
-                delay: 4,
+                delay: 5,
                 action: () => {
                     this.game.ARR.explosionGroup.recycle(this);
                 }

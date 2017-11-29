@@ -36,6 +36,8 @@ class Game {
             'tank128': '/images/tank128.png',
             'mapa2': '/images/rp2.png',
             'mapaluk': '/images/rp4.png',
+            'fire': '/images/fire.png',
+            'tank_destroy': '/images/tank_destroy.png',
         }
     }
 

@@ -19,6 +19,7 @@ class Tank extends Image {
         this.frictale = 2;
         this.lifeMax = 1;
         this.life = this.lifeMax;
+        this.lifeTimeAfterDestroy = 1000;
 
         this.directions = {
             forward: true,
@@ -115,38 +116,45 @@ class Tank extends Image {
     }
 
     move() {
-        const centerX = this.getCenter().x;
-        const centerY = this.getCenter().y;
+        if (this.life > 0) {
+            const centerX = this.getCenter().x;
+            const centerY = this.getCenter().y;
 
-        const skeletonFront = {
-            bottom: this.game.VAR.map.getPoint(centerX, centerY, centerX + this.width * 3, centerY, this.body.angle),
-            bottomLeft: this.game.VAR.map.getPoint(centerX, centerY, centerX + this.width * 3, centerY + this.halfHeight - 4, this.body.angle),
-            bottomRight: this.game.VAR.map.getPoint(centerX, centerY, centerX + this.width * 3, this.y + 4, this.body.angle)
-        }
-
-        const skeletonMask = {
-            bottom: this.game.VAR.map.getPoint(centerX, centerY, centerX + this.halfWidth, centerY, this.body.angle),
-            bottomLeft: this.game.VAR.map.getPoint(centerX, centerY, centerX + this.halfWidth, centerY + this.halfHeight - 4, this.body.angle),
-            bottomRight: this.game.VAR.map.getPoint(centerX, centerY, centerX + this.halfWidth, this.y + 4, this.body.angle)
-        }
-
-        if (this.game.VAR.map.getNextPosition(skeletonMask) === 'empty' && this.directions.forward) {
-            this.moveForward();
-            if ((this.game.VAR.map.getNextPosition(skeletonFront) === 'solid' || this.game.VAR.map.getNextPosition(skeletonFront) === 'flaying') && this.directions.angle) {
-                this.directions.angle = false;
-                this.getDirection();
-            } else if (this.rotateAngle.direction) {
-                this.changeRotateOnMove(skeletonFront);
+            const skeletonFront = {
+                bottom: this.game.VAR.map.getPoint(centerX, centerY, centerX + this.width * 3, centerY, this.body.angle),
+                bottomLeft: this.game.VAR.map.getPoint(centerX, centerY, centerX + this.width * 3, centerY + this.halfHeight - 4, this.body.angle),
+                bottomRight: this.game.VAR.map.getPoint(centerX, centerY, centerX + this.width * 3, this.y + 4, this.body.angle)
             }
-        } else if (!this.directions.back) {
-            this.moveStop();
-            this.getDirection();
-        } else if (this.directions.back) {
-            this.changeRotateOnStop(skeletonMask);
-        }
 
-        this.body.velocity.x = Math.cos((this.body.angle)) * this.speed;
-        this.body.velocity.y = Math.sin((this.body.angle)) * this.speed;
+            const skeletonMask = {
+                bottom: this.game.VAR.map.getPoint(centerX, centerY, centerX + this.halfWidth, centerY, this.body.angle),
+                bottomLeft: this.game.VAR.map.getPoint(centerX, centerY, centerX + this.halfWidth, centerY + this.halfHeight - 4, this.body.angle),
+                bottomRight: this.game.VAR.map.getPoint(centerX, centerY, centerX + this.halfWidth, this.y + 4, this.body.angle)
+            }
+
+            if (this.game.VAR.map.getNextPosition(skeletonMask) === 'empty' && this.directions.forward) {
+                this.moveForward();
+                if ((this.game.VAR.map.getNextPosition(skeletonFront) === 'solid' || this.game.VAR.map.getNextPosition(skeletonFront) === 'flaying') && this.directions.angle) {
+                    this.directions.angle = false;
+                    this.getDirection();
+                } else if (this.rotateAngle.direction) {
+                    this.changeRotateOnMove(skeletonFront);
+                }
+            } else if (!this.directions.back) {
+                this.moveStop();
+                this.getDirection();
+            } else if (this.directions.back) {
+                this.changeRotateOnStop(skeletonMask);
+            }
+
+            this.body.velocity.x = Math.cos((this.body.angle)) * this.speed;
+            this.body.velocity.y = Math.sin((this.body.angle)) * this.speed;
+        } else {
+            this.lifeTimeAfterDestroy--;
+            if (this.lifeTimeAfterDestroy <= 0) {
+                this.game.ARR.enemyGroup.recycle(this);
+            }
+        }
     }
 };
 

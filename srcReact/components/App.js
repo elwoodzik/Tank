@@ -18,12 +18,19 @@ class App extends React.Component {
     onStart = (e) => {
         this.props.dispatch(isPlaying(true)).then(() => {
             new Game();
+
+            const canvas = document.querySelector('canvas');
+            const req = canvas.requestFullScreen || canvas.webkitRequestFullScreen || canvas.mozRequestFullScreen || canvas.msRequestFullScreen;
+
+            if (req) { // Native full screen.
+                req.call(canvas);
+            }
         })
     }
 
     render() {
         return (
-            <div style={{ fontSize: '55px', textAlign: 'center' }} onClick={this.onStart}>
+            <div className="ss" style={{ fontSize: '55px', textAlign: 'center' }} onClick={this.onStart}>
                 {!this.props.config.isPlaying ? 'Start' : null}
             </div>
         )
