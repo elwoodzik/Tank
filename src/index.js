@@ -48,4 +48,4 @@ class Game {
     }
 };
 
-export default new Game();
+export default Game;

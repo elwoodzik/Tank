@@ -3,7 +3,7 @@ const environments = 'production'; // 'production' & 'development';
 
 module.exports = {
     entry: {
-        "Leya": "./src/index.js",
+        "Leya": "./srcReact/index.js",
     },
     output: {
         path: __dirname + '/public/javascripts',
