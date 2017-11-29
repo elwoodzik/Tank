@@ -2,7 +2,6 @@ import React from 'react';
 import Game from '../../src/index';
 
 import { connect } from 'react-redux';
-
 import { isPlaying } from '../actions/config';
 
 @connect((store) => {
