@@ -1,9 +1,12 @@
 import Leya from '../lib/Leya';
 import Menu from './Pages/Menu';
 
+let options;
 class Game {
 
-    constructor() {
+    constructor(_options) {
+        options = _options;
+
         const gameWidth = 1280;
         const gameHeight = 720;
         const orientation = false; //false -> vertical, true -> horizontal (obecnie 'horizontal' jest nie obslugiwany!!!)
@@ -44,9 +47,9 @@ class Game {
     create(game) {
         game.mouse.initialize();
         game.keyboard.initialize();
-
+        
         game.state.add('Menu', Menu);
-        game.state.start('Menu', { data: 'test' });
+        game.state.start('Menu', { data: options });
     }
 };
 

@@ -6,3 +6,4 @@ export const isPlaying = (bool) => {
         })
     }
 }
+

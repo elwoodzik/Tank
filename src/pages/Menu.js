@@ -13,7 +13,7 @@ class Menu {
         this.game = game;
     }
 
-    create(data) {
+    create(options) {
         this.game.add.map({
             json: '../../jsons/mapa3.json',
             key: 'rpg'
@@ -23,9 +23,9 @@ class Menu {
 
             this.generateFlashLight();
             this.generateFlashLightArc();
-            this.preAllocateFire(30, Fire);
+            this.preAllocateFire(50, Fire);
 
-            this.createEnemies(30, TankEnemy);
+            this.createEnemies(options.bots, TankEnemy);
             //       
             this.game.setPortView(2560, 2560);
             //
