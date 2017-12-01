@@ -71,7 +71,7 @@ class App extends React.Component {
                     <Chat socket={this.socket} />
                     <FacebookLogin
                         appId="117065765743318"
-                        autoLoad={true}
+                        autoLoad={false}
                         fields="name,email,picture"
                         scope="public_profile,user_friends,user_actions.books"
                         callback={this.responseFacebook}
