@@ -50,7 +50,6 @@ class App extends React.Component {
         this.props.dispatch(setBots(e.target.value))
     }
 
-
     getConntent() {
         if (this.props.config.isPlaying) {
             return null;
