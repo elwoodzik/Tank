@@ -53,7 +53,7 @@ class Chat extends React.Component {
 
     receiveMessage = (msg) =>{
         const chatTexts = this.state.chatTexts;
-        chatTexts.push(`Ktoś: ${msg}`);
+        chatTexts.unshift(`Ktoś: ${msg}`);
 
         this.setState({
             chatTexts: chatTexts

@@ -3,12 +3,11 @@ import io from 'socket.io-client';
 class Socket {
  
     constructor(){
-        this.socket = io.connect('localhost:9013');
 
-        this.initialize();
     }
 
     initialize(){
+        this.socket = io.connect();
         this.onSocket('connected', function (err, msg) {
             if (err) {
                 console.error(err);

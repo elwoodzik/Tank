@@ -31,7 +31,6 @@ class Game {
             'tileset': '/images/tileset.png',
             'test': '/images/test.png',
             'rpg': '/images/rp.png',
-            'rpg64': '/images/rp64.png',
             'tank32': '/images/tank_32.png',
             'tank_enemy32': '/images/tank_enemy_32.png',
             'barrel32': '/images/barrel_32.png',
