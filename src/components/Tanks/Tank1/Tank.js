@@ -27,6 +27,8 @@ class Tank extends AbstractTank {
         // this.maxBackSpeed = -50;
         // this.acc = 0.5;
         // this.frictale = 2;
+        this.life = 5500;
+        this.lifeMax = 5500;
     }
 };
 

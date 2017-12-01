@@ -2,10 +2,13 @@ import Leya from '../lib/Leya';
 import Menu from './Pages/Menu';
 
 let options;
+let socket; 
+
 class Game {
 
-    constructor(_options) {
+    constructor(_options, _socket) {
         options = _options;
+        socket = _socket;
 
         const gameWidth = 1280;
         const gameHeight = 720;
@@ -45,9 +48,13 @@ class Game {
     }
 
     create(game) {
+        const multi = game.add.multiplayer('10.10.97.50:9003');
+        multi.initializeGameConnetion(socket);
+
         game.mouse.initialize();
         game.keyboard.initialize();
-        
+
+
         game.state.add('Menu', Menu);
         game.state.start('Menu', { data: options });
     }

@@ -53,6 +53,25 @@ class Bullet extends Image {
                 tank.destroy();
             }
         })
+
+        this.game.physic.collide(this, this.game.ARR.enemyGroup.entities, (bullet, tank) => {
+            this.spawExplosion();
+            tank.life--;
+
+            if (tank.life <= 0) {
+                if (tank.barrel) {
+                    this.showFire(tank.x + tank.halfWidth, tank.y, 0);
+                    this.showFire(tank.x, tank.y, 0);
+                    tank.body.velocity.x = 0;
+                    tank.body.velocity.y = 0;
+                    tank.barrel.destroy();
+                    tank.barrel = null;
+                    tank.changeImage('tank_destroy');
+                    this.game.VAR.enemiesText.rem(1);
+                }
+            }
+            this.game.ARR.enemyBulletGroup.recycle(bullet);
+        })
         // this.rect.x = skeleton.front.x;
         // this.rect.y = skeleton.front.y;
     }
