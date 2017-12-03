@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon -e js,twig,scss --exec babel-node server.js",
     "dev": "webpack -w --progress --colors",
-    "prod": "webpack -p -w --progress --colors"
+    "prod": "webpack -p -w --progress --colors",
+    "mongo": "mongod"
   },
   "repository": {
     "type": "git",
@@ -50,6 +51,8 @@
     "babel-preset-stage-2": "^6.17.0",
     "eslint": "^3.7.1",
     "eslint-plugin-react": "^6.4.0",
+    "mongo": "^0.1.0",
+    "mongoose": "^4.13.5",
     "nodemon": "^1.11.0",
     "webpack": "^1.13.2",
     "webpack-livereload-plugin": "^0.10.0",

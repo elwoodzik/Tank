@@ -1,20 +1,32 @@
 import config from './config';
 import path from 'path';
+import bodyParser from 'body-parser';
 
 import express from 'express';
+import mongoose from 'mongoose';
+
 import homePage from './routes/home';
+import login from './routes/login';
 
 import io from 'socket.io';
 import Game from './srcServer/Game';
 
 const server = express();
 
+mongoose.connect(config.mongodbUri, {
+    useMongoClient: true,
+    /* other options */
+});
+
 process.env.NODE_ENV = 'production';
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 server.set('view engine', 'twig');
+server.use(bodyParser.urlencoded({ extended: true }));
+server.use(bodyParser.json());
 
 server.use('/', homePage);
+server.use('/login', login);
 
 //let a = new Game();
 server.use(express.static('public'));

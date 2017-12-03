@@ -17,9 +17,20 @@ class Facebook extends React.Component {
 
     responseFacebook = (response) => {
         console.log(response)
-        this.props.socket.initialize();
         if (response) {
-            this.props.dispatch((setUser(response)));
+            this.props.socket.initialize();
+            fetch("/login",
+                {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    method: "POST",
+                    body: JSON.stringify({ user: response })
+                }).then((res) => {
+                    console.log(res)
+                    this.props.dispatch((setUser(response)));
+                })
         }
     }
 
@@ -29,7 +40,7 @@ class Facebook extends React.Component {
                 appId="117065765743318"
                 autoLoad={false}
                 fields="name,email,picture"
-                reAuthenticate={true}
+                // reAuthenticate={true}
                 scope="public_profile,user_friends,user_actions.books"
                 callback={this.responseFacebook}
             />

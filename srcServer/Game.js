@@ -12,7 +12,7 @@ class Game {
         this.multiplayer.socket.initializeSockets((socket) => {
 
             socket.on("chatMessage", (msg) => {
-                this.multiplayer.socket.broadcastToRoom(socket, 'chatMessage', 'global', msg);
+                this.multiplayer.socket.emitToRoom('chatMessage', 'global', msg);
             })
             // tutaj sockety uzytkownika
             // socket.on(name,function) 

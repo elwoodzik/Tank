@@ -6,12 +6,12 @@ import Game from '../../src/index';
 
 import { connect } from 'react-redux';
 import { isPlaying } from '../actions/config';
-import { isFullScreen, setBots } from '../actions/options';
+
 
 import Chat from './Chat/Chat';
 import Header from './Header/Header';
 import Facebook from './Facebook/Facebook';
-
+import GameOptions from './GameOptions/GameOptions';
 
 @connect((store) => {
     return {
@@ -42,14 +42,6 @@ class App extends React.Component {
         })
     }
 
-    onFullscreen = (e) => {
-        this.props.dispatch(isFullScreen(e.target.checked))
-    }
-
-    onChangeBots = (e) => {
-        this.props.dispatch(setBots(e.target.value))
-    }
-
     getConntent() {
         if (this.props.config.isPlaying) {
             return null;
@@ -61,18 +53,8 @@ class App extends React.Component {
                         <div className="content" style={{ width: '986px', margin: 'auto' }}>
                             <div className="start" style={{ fontSize: '55px', textAlign: 'center' }} onClick={this.onStart}>
                                 Start
-                        </div>
-                            <div className="options">
-                                <label>
-                                    <span style={{ fontSize: '25px' }}> Pełny ekran </span>
-                                    <input type="checkbox" onChange={this.onFullscreen} />
-                                </label>
-                                <br />
-                                <label>
-                                    <span style={{ fontSize: '25px', display: 'inline-block', width: '70px' }}>Boty:  </span><span style={{ fontSize: '25px', width: '40px', display: 'inline-block' }}>  {this.props.options.bots} </span>
-                                    <input id="test" type="range" value={this.props.options.bots} min="0" max="130" step="1" onChange={this.onChangeBots} />
-                                </label>
                             </div>
+                            <GameOptions />
                             <Chat socket={this.socket} />
                         </div>
                     </div>
