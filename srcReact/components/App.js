@@ -17,7 +17,8 @@ import GameOptions from './GameOptions/GameOptions';
     return {
         config: store.config,
         options: store.options,
-        user: store.user.user
+        user: store.user.user,
+        accountData: store.accountData.accountData
     };
 })
 class App extends React.Component {

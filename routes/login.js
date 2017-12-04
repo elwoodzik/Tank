@@ -1,41 +1,36 @@
-import assert from 'assert';
+
 import { models, findCollectionByKey } from '../srcServer/models/model';
 
 const router = (req, res, next) => {
-    const user = req.body.user;
-    // let url = req.body.url.replace(/\/\([^]*\)*/g, '');
-    // url = url.replace(/\/*$/g, '');
-    // const type = req.body.type;
-    // const ip = req.ip || req.connection.remoteAddress;
+    const loginUser = req.body.user;
+    const collection = findCollectionByKey('tanks');
 
-    const collection = findCollectionByKey('users');
-   
     if (collection) {
-        models[collection].findOne({ 'users.userId': user.id }, (err, exist) => {
-            console.log(exist)
-            if (exist) {
-                return res.json({ "status": 'ok' })
+        const tankCollection = new models[collection]();
+
+        tankCollection.findUser(loginUser.id, (existUser) => {
+            if (existUser) {
+                existUser._id = null;
+                existUser.__v = null;
+
+                return res.json(existUser);
             } else {
-                saveNew(user, collection).then(()=>{
-                    return res.json({ "status": 'ok' })
+                saveNew(loginUser, collection).then(() => {
+                    return res.json(existUser);
                 })
             }
         })
     } else {
-        return res.json({ "status": 'error' })
+        return res.json({ "status": 'error' });
     }
 }
 
 const saveNew = (user, collection) => {
-    const data = new models[collection]({
-        users: [
-            {
-                userId: user.id,
-            }
-        ]
+    const tankCollection = new models[collection]({
+        userId: user.id
     })
 
-    return data.save().then((user) => {
+    return tankCollection.save().then((user) => {
         console.log(`succes insert new`);
     });
 }

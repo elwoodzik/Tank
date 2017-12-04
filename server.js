@@ -19,20 +19,19 @@ mongoose.connect(config.mongodbUri, {
 });
 
 process.env.NODE_ENV = 'production';
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 server.set('view engine', 'twig');
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
 
 server.use('/', homePage);
-server.use('/login', login);
+server.post('/login', login);
 
 //let a = new Game();
 server.use(express.static('public'));
 
 const sock_io = io.listen(server.listen(config.port, config.host, () => {
     console.info('Server listening on ' + config.host + ":" + config.port);
+    new Game(sock_io);
 }))
 
-new Game(sock_io);

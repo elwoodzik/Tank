@@ -3,6 +3,7 @@ import FacebookLogin from 'react-facebook-login';
 
 import { connect } from 'react-redux';
 import { setUser } from '../../actions/user';
+import { setAccount } from '../../actions/account';
 
 @connect((store) => {
     return {
@@ -16,20 +17,22 @@ class Facebook extends React.Component {
     }
 
     responseFacebook = (response) => {
-        console.log(response)
         if (response) {
-            this.props.socket.initialize();
-            fetch("/login",
+            fetch("http://89.76.218.143/login",
                 {
                     headers: {
-                        'Accept': 'application/json',
                         'Content-Type': 'application/json'
                     },
                     method: "POST",
                     body: JSON.stringify({ user: response })
                 }).then((res) => {
-                    console.log(res)
-                    this.props.dispatch((setUser(response)));
+                    return res.json();
+                }).then((accountData) => {
+                    console.log(accountData)
+                    this.props.socket.initialize();
+                    this.props.dispatch((setUser(response))).then(() => {
+                        this.props.dispatch((setAccount(accountData)));
+                    });
                 })
         }
     }

@@ -6,20 +6,22 @@ export const models = {};
 // kolekcje ktore zostana użyte przy tworzeniu modelu i adres domeny do niej przypisany
 const collectionNames = [
     {
-        name: 'users',
-        key: 'users'
+        name: 'tanks',
+        key: 'tanks'
     }
 ]
-
 // obiekt modelu
 const model = {
-    url: String,
-    users: [
-        {
-            userId: String,
-            createTime: { type: Date, default: Date.now }
-        }
-    ]
+    userId: String,
+    createTime: { type: Date, default: Date.now },
+    resources: {
+        gold: { type: Number, default: 100 },
+        diamonds: { type: Number, default: 0 },
+    },
+    statistic: {
+        kills: { type: Number, default: 0 },
+        deaths: { type: Number, default: 0 },
+    }
 }
 
 const createModel = (model, collectionNames) => {
@@ -29,15 +31,15 @@ const createModel = (model, collectionNames) => {
             collection: collectionNames[i].name
         });
 
-        voicerSchema.methods.findOne = function (id, cb) {
-            this.model(collectionNames[i].name).findOne({ userId: id }, (err, exist) => {
-                console.log('sdfdsfsdfsdsdfsdf')
+        voicerSchema.methods.findUser = function (id, cb) {
+            this.model(collectionNames[i].name).findOne({ 'userId': id }, (err, exist) => {
                 if (!err) {
                     return cb(exist);
                 }
                 return cb(false);
             })
         }
+
 
         // voicerSchema.methods.findAll = function (cb) {
         //     this.model(collectionNames[i].name).find({}, (err, exist) => {
