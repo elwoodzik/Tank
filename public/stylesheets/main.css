@@ -1,0 +1,144 @@
+    .container{
+        width: 1200px;
+        position: relative;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .header{
+        float:right;
+        margin-top: 10px;
+    }   
+
+    .header .portrait{
+        float:left;
+    }   
+
+    .header .signature{
+        padding: 7px;
+        float:left;
+       
+    }
+
+    .header .gold{
+        padding: 0 7px 0 7px;
+        float: left;
+        line-height: 50px;
+    }
+
+    .header .diamonds{
+        padding: 0 7px 0 7px;
+        float: left;
+        line-height: 50px;
+    }
+
+    .menu{
+        margin-top: 30px;
+    }
+
+    .menu li{
+        display: inline-block;
+        padding: 14px 20px 14px 20px;
+        cursor: pointer;
+        font-size: 24px;
+        border: 1px solid #4444;
+        margin: 5px;
+    }
+    .menu li:hover{
+        border: 1px solid #444;
+    }
+    .menu li.active{
+        border: 1px solid #444;
+    }
+
+    .flex-container {
+        display: -ms-inline-flexbox;
+        display: -webkit-inline-flex;
+        display: inline-flex;
+        -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        -webkit-flex-wrap: nowrap;
+        -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+        -webkit-justify-content: flex-start;
+        -ms-flex-pack: start;
+        justify-content: flex-start;
+        -webkit-align-content: stretch;
+        -ms-flex-line-pack: stretch;
+        align-content: stretch;
+        -webkit-align-items: flex-start;
+        -ms-flex-align: start;
+        align-items: flex-start;
+    }
+
+    .flex-item{
+        margin: 0 10px 0 10px;
+        border:1px solid white;
+        cursor: pointer;
+    }
+
+    .flex-item:hover{
+        border:1px solid #888;
+    }
+
+    .flex-item img{
+        height: 168px;
+    }
+
+    .flex-item .signature{
+        height: 80px;
+        background: #b1a2d6;
+        margin-top: -4px;
+    }
+
+    .flex-item .signature .title{
+        font-size: 20px;
+        text-align: center;
+        line-height: 40px;
+    }
+
+    .flex-item .signature .description{
+        font-size: 16px;
+        text-align: center;
+        line-height: 20px;
+        font-style: italic;
+        color:#333;
+    }
+
+    .flex-item:nth-child(1) {
+        -webkit-order: 0;
+        -ms-flex-order: 0;
+        order: 0;
+        -webkit-flex: 0 1 auto;
+        -ms-flex: 0 1 auto;
+        flex: 0 1 auto;
+        -webkit-align-self: auto;
+        -ms-flex-item-align: auto;
+        align-self: auto;
+    }
+
+    .flex-item:nth-child(2) {
+        -webkit-order: 0;
+        -ms-flex-order: 0;
+        order: 0;
+        -webkit-flex: 0 1 auto;
+        -ms-flex: 0 1 auto;
+        flex: 0 1 auto;
+        -webkit-align-self: auto;
+        -ms-flex-item-align: auto;
+        align-self: auto;
+       
+    }
+
+    .flex-item:nth-child(3) {
+        -webkit-order: 0;
+        -ms-flex-order: 0;
+        order: 0;
+        -webkit-flex: 0 1 auto;
+        -ms-flex: 0 1 auto;
+        flex: 0 1 auto;
+        -webkit-align-self: auto;
+        -ms-flex-item-align: auto;
+        align-self: auto;
+    }

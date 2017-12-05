@@ -22,12 +22,12 @@ module.exports = {
         ]
     },
     plugins: [
-        new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify(environments)
-        }),
-        new webpack.optimize.UglifyJsPlugin({ comments: false,  minimize: false,
-            sourceMap: true,
-            debug: false })
+        // new webpack.DefinePlugin({
+        //     'process.env.NODE_ENV': JSON.stringify(environments)
+        // }),
+        // new webpack.optimize.UglifyJsPlugin({ comments: false,  minimize: false,
+        //     sourceMap: true,
+        //     debug: false })
     ]
 };
 

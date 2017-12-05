@@ -9,6 +9,9 @@ const reducer = (state = {
         case "BOTS": {
             return { ...state, bots: action.payload }
         }
+        case "SOCKET": {
+            return { ...state, socket: action.payload }
+        }
     }
     return state;
 }

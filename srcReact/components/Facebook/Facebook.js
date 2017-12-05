@@ -4,6 +4,7 @@ import FacebookLogin from 'react-facebook-login';
 import { connect } from 'react-redux';
 import { setUser } from '../../actions/user';
 import { setAccount } from '../../actions/account';
+import { setSocket } from '../../actions/options';
 
 @connect((store) => {
     return {
@@ -28,11 +29,13 @@ class Facebook extends React.Component {
                 }).then((res) => {
                     return res.json();
                 }).then((accountData) => {
-                    console.log(accountData)
                     this.props.socket.initialize();
-                    this.props.dispatch((setUser(response))).then(() => {
-                        this.props.dispatch((setAccount(accountData)));
-                    });
+                    this.props.dispatch(setSocket(this.props.socket)).then(() => {
+                        this.props.dispatch(setAccount(accountData)).then(() => {
+                            this.props.dispatch(setUser(response));
+                        })
+                    })
+
                 })
         }
     }

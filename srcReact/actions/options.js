@@ -15,3 +15,12 @@ export const setBots = (int) => {
         })
     }
 }
+
+export const setSocket = (obj) => {
+    return (dispatch) => {
+        return new Promise((resolve, reject) => {
+            dispatch({ type: "SOCKET", payload: obj })
+            resolve();
+        })
+    }
+}

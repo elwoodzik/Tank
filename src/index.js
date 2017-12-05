@@ -48,11 +48,13 @@ class Game {
 
     create(game) {
         const multi = game.add.multiplayer('10.10.97.50:9003');
-        multi.initializeGameConnetion(socket);
+
+        if(sokcet){
+            multi.initializeGameConnetion(socket);
+        }
 
         game.mouse.initialize();
         game.keyboard.initialize();
-
 
         game.state.add('Menu', Menu);
         game.state.start('Menu', { data: options });

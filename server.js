@@ -25,6 +25,8 @@ server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
 
 server.use('/', homePage);
+server.use('/play', homePage);
+server.use('/options', homePage);
 server.post('/login', login);
 
 //let a = new Game();
