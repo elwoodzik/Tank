@@ -22,19 +22,19 @@ class Game {
 
     preload() {
         return {
-            //'tank': '/images/tank.png',
-            // 'barrel': '/images/barrel.png',
-            // 'fireShot': '/images/fireShot.png',
-            // 'bullet': '/images/bullet.png',
-            // 'rpg': '/images/rp.png',
-            'tank32': '/images/tank_32.png',
-            // 'tank_enemy32': '/images/tank_enemy_32.png',
-            // 'barrel32': '/images/barrel_32.png',
-            // 'barrel_enemy32': '/images/barrel_enemy_32.png',
-            // 'fireShot32': '/images/fireShot_32.png',
-            // 'explo': '/images/explo.png',
-            // 'fire': '/images/fire.png',
-            // 'tank_destroy': '/images/tank_destroy.png',
+            'tank': '/images/tank.png',
+            'barrel': '/images/barrel.png',
+            'fireShot': '/images/fireShot.png',
+            'bullet': '/images/bullet.png',
+            'rpg': '/images/rp.png',
+           'tank32': '/images/tank_32.png',
+            'tank_enemy32': '/images/tank_enemy_32.png',
+            'barrel32': '/images/barrel_32.png',
+            'barrel_enemy32': '/images/barrel_enemy_32.png',
+            'fireShot32': '/images/fireShot_32.png',
+            'explo': '/images/explo.png',
+            'fire': '/images/fire.png',
+            'tank_destroy': '/images/tank_destroy.png',
         }
     }
 
@@ -49,7 +49,7 @@ class Game {
 
         if (socket) {
             multi.initializeGameConnetion(socket);
-            game.state.start('Multi', { data: options });
+            game.state.start('Menu', { data: options });
         } else {
             game.state.start('Menu', { data: options });
         }

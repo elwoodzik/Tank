@@ -43,7 +43,7 @@ class Game {
 
                 this.multiplayer.socket.emitToRoom('game start', 'global', sendData);
 
-               console.log(this.gameObjects['Tank'])
+               console.log(this.gameObjects[Tank])
                
             });
 
