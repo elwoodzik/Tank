@@ -2,19 +2,18 @@ import React from 'react';
 import { Router, Route, browserHistory, IndexRedirect, IndexRoute } from 'react-router';
 
 
-import Socket from '../components/Socket';
 import App from '../components/App';
 import Home from '../components/Pages/Home/Home';
 import Play from '../components/Pages/Play/Play';
 import Options from '../components/Pages/Options/Options';
 
-const socket = new Socket();
+
 
 const Routes = (
-    <Route component={App} socket={socket}>
-        <Route path="/" component={Home} socket={socket} />
-        <Route path="/play" component={Play} socket={socket} />
-        <Route path="/options" component={Options} socket={socket} />
+    <Route component={App} >
+        <Route path="/" component={Home} />
+        <Route path="/play" component={Play} />
+        <Route path="/options" component={Options} />
         {/*<Route path="/stacje-radiowe" component={Site} />
         <Route path="/stacje-radiowe/:slug" component={Site} />
         <Route path="/kanaly" component={Site} />

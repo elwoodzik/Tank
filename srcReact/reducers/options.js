@@ -1,6 +1,9 @@
+import Socket from '../components/Socket';
+
 const reducer = (state = {
     fullScreen: false,
-    bots: 30
+    bots: 30,
+    socket: new Socket()
 }, action) => {
     switch (action.type) {
         case "FULLSCREEN": {

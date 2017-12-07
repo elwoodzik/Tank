@@ -12,13 +12,13 @@ class Tank extends AbstractTank {
 
         this.newSettings();
 
-        this.barrel = new Barrel(this.game, {
-            key: 'barrel32',
-            x: this.x,
-            y: this.y,
-            marginX: 8,
-            marginY: 1
-        })
+        // this.barrel = new Barrel(this.game, {
+        //     key: 'barrel32',
+        //     x: this.x,
+        //     y: this.y,
+        //     marginX: 8,
+        //     marginY: 1
+        // })
     }
 
     newSettings() {
@@ -27,8 +27,8 @@ class Tank extends AbstractTank {
         // this.maxBackSpeed = -50;
         // this.acc = 0.5;
         // this.frictale = 2;
-        this.life = 5500;
-        this.lifeMax = 5500;
+        // this.life = 5500;
+        // this.lifeMax = 5500;
     }
 };
 

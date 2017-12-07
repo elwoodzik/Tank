@@ -65,13 +65,13 @@ class Socket {
     }
 
     // wysyla wiadomosc tylko do osoby wysylajacej socketa
-    // emitToMe: function(name, data){
-    //     if(!name){
-    //         throw 'musisz podac jako pierwszy parametr nazwe socketu';
-    //     }
+    emitToMe(name, socket, data){
+        if(!name){
+            throw 'musisz podac jako pierwszy parametr nazwe socketu';
+        }
 
-    //     this.socket.emit(name, data);
-    // }
+        socket.emit(name, data);
+    }
 
     // wysyla wiadomosc do wszystkich z podanego pokoju (room)
     emitToRoom(name, room, data) {
@@ -91,12 +91,12 @@ class Socket {
     }
 
     // wysyla wiadomosc tylko do okreslonego gracza
-    emitToPlayer(name, id, data) {
+    emitToPlayer(name, socket, data) {
         if (!name) {
             throw 'musisz podac jako pierwszy parametr nazwe socketu';
         }
-
-        this.socket.broadcast.to(id).emit(name, data);
+       
+        socket.broadcast.to(socket.id).emit(name, 'ppp');
     }
 
     // wysyla wiadomosc do wszystkich oprocz osoby ktora wyslala socketa

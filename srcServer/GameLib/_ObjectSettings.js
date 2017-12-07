@@ -1,24 +1,16 @@
-import AssetManager from './AssetManager';
-
 class _ObjectSettings {
 
     constructor(game, options) {
-
-        if (!game) {
-            throw ('oczekiwano obiektu game jako pierwszy parametr!')
-        }
         if (!options) {
             throw ('oczekiwano obiektu jako parametr do: ' + this.constructor.name)
         }
-      
-        
-        this.AssetManager = AssetManager;
 
         this.game = game;
 
-        //this.pooled = options.pooled; 
+        //this.socket = options.socket || false;
 
-        this.contextType = options.context || 'main';
+        this.socketId = options.socket.id || false;
+        //this.pooled = options.pooled; 
 
         this.x = options.x === undefined ? 100 : options.x;
 
@@ -54,10 +46,6 @@ class _ObjectSettings {
 
         this.playerControlled = true;
 
-        if (this.key) {
-            this.image = this.AssetManager.get(this.key) || this.key;
-        }
-
         this.width = options.width || (this.image ? this.image.width : 150);
         this.height = options.height || (this.image ? this.image.height : 150);
 
@@ -65,16 +53,6 @@ class _ObjectSettings {
         this.halfHeight = this.height / 2;
 
         this.setContext(this.contextType);
-    }
-    
-    optionsAssign(options, me) {
-        Object.keys(options).forEach((key) => {
-            if (typeof options[key] === 'object') {
-                this.optionsAssign(options[key], me[key]);
-            } else {
-                me[key] = options[key];
-            }
-        })
     }
 
     changeContext(context, array) {
@@ -93,43 +71,13 @@ class _ObjectSettings {
     }
 
     setContext(context) {
-        if (context) {
-            if (context === 'main') {
-                this.context = this.game.ctx;
-                this.contextType = context;
-                const gameObjectLength = this.game.gameObjects.length;
-                this.game.gameObjects[gameObjectLength] = this;
-            } else if (context === 'background') {
-                this.context = this.game.bgctx;
-                this.contextType = context;
-                const gameObjectStaticLength = this.game.gameObjectsStatic.length;
-                this.game.gameObjectsStatic[gameObjectStaticLength] = this;
-                //this.redraw(); 
-            }
-            else if (context === 'onbackground') {
-                this.context = this.game.onbgctx;
-                this.contextType = context;
-                const gameObjectOnStaticLength = this.game.gameObjectsOnStatic.length;
-                this.game.gameObjectsOnStatic[gameObjectOnStaticLength] = this;
-                //this.redraw();
-            } else {
-                return console.error("Niepoprawna nazwa Contextu. Dostępne nazwy to: \n1. background \n2. onbackground \n3. main")
-            }
-        }
+        const gameObjectLength = this.game.gameObjects.length;
+        this.game.gameObjects[gameObjectLength] = this;
     }
 
     setIndex(index) {
         this.zIndex = index;
         return this;
-        // this.game.gameObjects.sort((obj1, obj2) => {
-        //     if (obj1.zIndex > obj2.zIndex)
-        //         return 1;
-        //     else if (obj1.zIndex < obj2.zIndex) {
-        //         return -1;
-        //     } else {
-        //         return 0;
-        //     }
-        // });
     }
 
     destroy(array) {
@@ -447,7 +395,7 @@ class _ObjectSettings {
 
     show() {
         this.used = true;
-       
+
         return this;
     }
 

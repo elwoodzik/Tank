@@ -13,16 +13,15 @@ import Menu from './Menu/Menu';
     return {
         config: store.config,
         user: store.user.user,
+        options: store.options
     };
 })
 class App extends React.Component {
 
     constructor(props) {
         super(props);
-
+        this.props.options.socket.initialize();
     }
-
-
 
     getConntent() {
         if (this.props.config.isPlaying) {
@@ -30,7 +29,7 @@ class App extends React.Component {
         } else {
             return (
                 <div className="container">
-                    <Header socket={this.props.route.socket} />
+                    <Header />
                     <div style={{ "clear": "both" }}></div>
                     <div className="content">
                         <Menu />

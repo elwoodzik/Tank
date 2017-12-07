@@ -6,9 +6,9 @@ import { setUser } from '../../actions/user';
 import { setAccount } from '../../actions/account';
 import { setSocket } from '../../actions/options';
 
-@connect((store) => {
+@connect( (store) => {
     return {
-
+        options: store.options,
     };
 })
 class Facebook extends React.Component {
@@ -29,11 +29,9 @@ class Facebook extends React.Component {
                 }).then((res) => {
                     return res.json();
                 }).then((accountData) => {
-                    this.props.socket.initialize();
-                    this.props.dispatch(setSocket(this.props.socket)).then(() => {
-                        this.props.dispatch(setAccount(accountData)).then(() => {
-                            this.props.dispatch(setUser(response));
-                        })
+                    this.props.options.socket.initialize();
+                    this.props.dispatch(setAccount(accountData)).then(() => {
+                        this.props.dispatch(setUser(response));
                     })
 
                 })

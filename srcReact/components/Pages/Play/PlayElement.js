@@ -18,8 +18,9 @@ class PlayElement extends React.Component {
     onElementClick = (e) => {
         e.preventDefault();
         if (!this.props.data.disabled) {
+            
             this.props.dispatch(isPlaying(true)).then(() => {
-                new Game(this.props.options, this.props.socket);
+                new Game(this.props.options, this.props.options.socket.socket);
 
                 if (this.props.options.fullScreen) {
                     const canvas = document.querySelector('canvas');
