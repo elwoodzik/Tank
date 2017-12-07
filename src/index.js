@@ -27,13 +27,14 @@ class Game {
             'fireShot': '/images/fireShot.png',
             'bullet': '/images/bullet.png',
             'rpg': '/images/rp.png',
-           'tank32': '/images/tank_32.png',
+            'tank32': '/images/tank_322.png',
             'tank_enemy32': '/images/tank_enemy_32.png',
-            'barrel32': '/images/barrel_32.png',
+            'barrel32': '/images/barrel_322.png',
             'barrel_enemy32': '/images/barrel_enemy_32.png',
             'fireShot32': '/images/fireShot_32.png',
             'explo': '/images/explo.png',
             'fire': '/images/fire.png',
+            'mapaluk': '/images/obrazki.png',
             'tank_destroy': '/images/tank_destroy.png',
         }
     }

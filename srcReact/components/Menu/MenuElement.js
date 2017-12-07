@@ -32,7 +32,7 @@ class MenuElement extends React.Component {
 
     render() {
         return (
-            <li onClick={this.onClickElement}>{this.props.page}</li>
+            <li onClick={this.onClickElement}><span>{this.props.page}</span></li>
         )
     };
 };

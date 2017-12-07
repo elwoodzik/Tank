@@ -37,7 +37,7 @@ class PlayElement extends React.Component {
     render() {
         return (
             <div className="flex-item" onClick={this.onElementClick}>
-                <img src={this.props.data.img} />
+                <div className="img"><img src={this.props.data.img} /></div>
                 <div className="signature">
                     <p className="title">{this.props.data.title}</p>
                     <p className="description">{this.props.data.description}</p>

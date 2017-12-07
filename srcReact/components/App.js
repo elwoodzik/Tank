@@ -28,17 +28,20 @@ class App extends React.Component {
             return null;
         } else {
             return (
-                <div className="container">
-                    <Header />
-                    <div style={{ "clear": "both" }}></div>
-                    <div className="content">
-                        <Menu />
-                        {this.props.children}
-                        {/* <div className="start" style={{ fontSize: '55px', textAlign: 'center' }} onClick={this.onStart}>
+                <div className="bg-full">
+                    <div className="container">
+
+                        <Header />
+                        <div style={{ "clear": "both" }}></div>
+                        <div className="content">
+                            <Menu />
+                            {this.props.children}
+                            {/* <div className="start" style={{ fontSize: '55px', textAlign: 'center' }} onClick={this.onStart}>
                                 Start
                         </div>
                           
                             <Chat socket={this.socket} /> */}
+                        </div>
                     </div>
                 </div>
             )

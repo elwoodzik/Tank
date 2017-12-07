@@ -17,20 +17,21 @@ class Header extends React.Component {
     render() {
         if (this.props.user) {
             return (
-                <div className="header">
+                <header id="header">
                     <div className="portrait">
                         <img src={this.props.user.picture.data.url} />
                     </div>
                     <div className="signature">Witaj, <br /> {this.props.user.name}</div>
                     <div className="gold">kasiora: {this.props.accountData.resources.gold}</div>
                     <div className="diamonds">diamenciory: {this.props.accountData.resources.diamonds}</div>
-                </div>
+                </header>
+
             )
         }
         return (
-            <div className="header">
+            <header id="header">
                 <Facebook socket={this.props.socket} />
-            </div>
+            </header>
         )
     };
 };

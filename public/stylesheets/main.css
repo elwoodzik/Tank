@@ -36,7 +36,7 @@
         margin-top: 30px;
     }
 
-    .menu li{
+    /* .menu li{
         display: inline-block;
         padding: 14px 20px 14px 20px;
         cursor: pointer;
@@ -49,7 +49,7 @@
     }
     .menu li.active{
         border: 1px solid #444;
-    }
+    } */
 
     .flex-container {
         display: -ms-inline-flexbox;
@@ -73,13 +73,10 @@
     }
 
     .flex-item{
-        margin: 0 10px 0 10px;
-        border:1px solid white;
         cursor: pointer;
     }
 
     .flex-item:hover{
-        border:1px solid #888;
     }
 
     .flex-item img{
@@ -88,7 +85,6 @@
 
     .flex-item .signature{
         height: 80px;
-        background: #b1a2d6;
         margin-top: -4px;
     }
 

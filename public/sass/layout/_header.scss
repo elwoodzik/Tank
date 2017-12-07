@@ -1,0 +1,17 @@
+header {
+    &#header {
+        padding: 10px 0;
+        .kep-login-facebook {
+            opacity: 0.6;
+            padding: 10px 30px;
+            float: right;
+            @include transition( all 200ms ease-in-out );
+            font: {
+                size: 16px;
+            }
+            &:hover{
+                opacity: 1;
+            }
+        }
+    }
+}
