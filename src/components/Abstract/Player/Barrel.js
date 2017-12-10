@@ -42,13 +42,13 @@ class Barrel extends Image {
     // }
 
     update(dt) {
-        superUpdate.call(this, dt);
+        // superUpdate.call(this, dt);
 
-        this.body.rotateByMouse(0, true, 0.02);
+        // this.body.rotateByMouse(0, true, 0.02);
 
-        this.game.mouse.trigger(null, false, this.shot, false);
+        // this.game.mouse.trigger(null, false, this.shot, false);
 
-        this.reChargeShot();
+        // this.reChargeShot();
 
         // const a = this.game.VAR.map.getPoint(this.getCenter().x - this.marginX - 2, this.getCenter().y - this.marginY, this.getCenter().x + this.halfWidth - 20, this.getCenter().y, this.body.angle);
 

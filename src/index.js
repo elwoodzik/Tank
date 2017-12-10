@@ -50,7 +50,7 @@ class Game {
 
         if (socket) {
             multi.initializeGameConnetion(socket);
-            game.state.start('Menu', { data: options });
+            game.state.start('Multi', { data: options });
         } else {
             game.state.start('Menu', { data: options });
         }

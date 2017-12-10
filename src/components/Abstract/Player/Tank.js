@@ -30,7 +30,7 @@ class Tank extends Image {
     update(dt) {
         superUpdate.call(this, dt);
 
-        this.move();
+        //this.move();
     }
 
     move() {

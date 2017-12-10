@@ -1,4 +1,5 @@
 import Tank from '../components/Abstract/Player/Tank';
+import Barrel from '../components/Abstract/Player/Barrel';
 // import Tank2 from '../components/Tanks/Tank2/Tank';
 // import TankEnemy from '../components/Tanks/EnemyTanks/EnemyTank';
 // import Hud from '../components/Hud/Hud';
@@ -16,23 +17,26 @@ class Multi {
     create(options) {
         const objs = {
             "Tank": Tank,
+            "Barrel": Barrel,
         }
 
         this.game.multiplayer.socket.on("add enemy", (data) => {
-            console.log(data)
+            Object.keys(data).forEach((key) => {
+                new objs[key](this.game, data[key]);
+            })
         });
 
         this.game.multiplayer.socket.on('game start', (data) => {
             Object.keys(data).forEach((key) => {
-                const tank = new objs[key](this.game, data[key]);
+                const t = new objs[key](this.game, data[key]);
             })
         })
 
         this.game.multiplayer.socket.emit('game start');
 
-     
 
-       
+
+
     }
 
     // update(dt) {

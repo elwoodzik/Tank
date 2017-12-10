@@ -12,13 +12,13 @@ class Tank extends AbstractTank {
 
         this.newSettings();
 
-        this.barrel = new Barrel(this.game, {
-            key: 'barrel32',
-            x: this.x,
-            y: this.y,
-            marginX: 8,
-            marginY: 1
-        })
+        // this.barrel = new Barrel(this.game, {
+        //     key: 'barrel32',
+        //     x: this.x,
+        //     y: this.y,
+        //     marginX: 8,
+        //     marginY: 1
+        // })
     }
 
     newSettings() {

@@ -2,12 +2,11 @@ import Multiplayer from './lib/Multiplayer';
 import GameObjectFactory from './GameLib/GameObjectFactory';
 import Math from 'mathjs';
 import Tank from './components/Tank';
+import Barrel from './components/Barrel';
 
 class Game {
 
     constructor(io) {
-
-
         this.gameObjects = [];
 
         this.add = new GameObjectFactory(this);
@@ -21,14 +20,7 @@ class Game {
         this.multiplayer.socket.initializeSockets((socket) => {
             socket.on("game start", () => {
 
-                const enemies = {};
-                const enemiesTab = this.gameObjects.map((obj) => {
-                    return this.removeGameObj(obj);
-                })
-
-    
-                this.multiplayer.socket.emitToMe('add enemy', socket, enemiesTab);
-               
+                this.emitExistObjects(socket);
 
                 const sendData = {};
 
@@ -39,12 +31,19 @@ class Game {
                     y: Math.round(Math.random(10)) * 32,
                 });
 
+                const barrel = new Barrel(this, {
+                    key: 'barrel32',
+                    socket: socket,
+                    x: tank.x,
+                    y: tank.y,
+                    marginX: 8,
+                    marginY: 1
+                });
+
                 sendData['Tank'] = this.removeGameObj(tank);
+                sendData['Barrel'] = this.removeGameObj(barrel);
 
                 this.multiplayer.socket.emitToRoom('game start', 'global', sendData);
-
-               console.log(this.gameObjects[Tank])
-               
             });
 
             socket.on("chatMessage", (msg) => {
@@ -75,6 +74,14 @@ class Game {
             // })
             //console.log(this.multiplayer.rooms.rooms)
         });
+    }
+
+    emitExistObjects(socket) {
+        const enemies = {};
+        this.gameObjects.forEach((obj) => {
+            enemies[obj.constructor.name] = this.removeGameObj(obj);
+        })
+        this.multiplayer.socket.emitToMe('add enemy', socket, enemies);
     }
 
     gameLoop() {
