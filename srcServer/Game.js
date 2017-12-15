@@ -8,6 +8,7 @@ class Game {
 
     constructor(io) {
         this.gameObjects = [];
+        this.playersObjects = {};
 
         this.add = new GameObjectFactory(this);
 
@@ -15,36 +16,11 @@ class Game {
     }
 
     initialize(io) {
-        this.multiplayer = new Multiplayer(io);
+        this.multiplayer = new Multiplayer(io, this);
 
         this.multiplayer.socket.initializeSockets((socket) => {
-            socket.on("game start", () => {
-
-                this.emitExistObjects(socket);
-
-                const sendData = {};
-
-                const tank = new Tank(this, {
-                    key: 'tank32',
-                    socket: socket,
-                    x: Math.round(Math.random(10)) * 32,
-                    y: Math.round(Math.random(10)) * 32,
-                });
-
-                const barrel = new Barrel(this, {
-                    key: 'barrel32',
-                    socket: socket,
-                    x: tank.x,
-                    y: tank.y,
-                    marginX: 8,
-                    marginY: 1
-                });
-
-                sendData['Tank'] = this.removeGameObj(tank);
-                sendData['Barrel'] = this.removeGameObj(barrel);
-
-                this.multiplayer.socket.emitToRoom('game start', 'global', sendData);
-            });
+            socket.on("game start", this.onGameStart.bind(this, socket));
+            // socket.on
 
             socket.on("chatMessage", (msg) => {
                 this.multiplayer.socket.emitToRoom('chatMessage', 'global', msg);
@@ -76,6 +52,38 @@ class Game {
         });
     }
 
+    onGameStart(socket){
+        this.gameLoop();
+        this.emitExistObjects(socket);
+        
+        const sendData = {};
+
+        const tank = new Tank(this, {
+            key: 'tank32',
+            socketId: socket.id,
+            socket: socket,
+            x: Math.round(Math.random(10)) * 32,
+            y: Math.round(Math.random(10)) * 32,
+        });
+
+        const barrel = new Barrel(this, {
+            key: 'barrel32',
+            socketId: socket.id,
+            socket: socket,
+            x: tank.x,
+            y: tank.y,
+            marginX: 8,
+            marginY: 1
+        });
+
+        sendData['Tank'] = this.removeGameObj(tank);
+        sendData['Barrel'] = this.removeGameObj(barrel);
+
+        this.multiplayer.socket.emitToRoom('game start', 'global', sendData);
+
+        
+    }
+
     emitExistObjects(socket) {
         const enemies = {};
         this.gameObjects.forEach((obj) => {
@@ -85,26 +93,33 @@ class Game {
     }
 
     gameLoop() {
+        let lastUpdate = Date.now();
+
         setInterval(() => {
-            this.update();
+            let now = Date.now();
+            let dt = (now - lastUpdate ) / 1000;
+            lastUpdate = now;
+           
+            this.update(dt);
         }, 1000 / 60);
     }
 
-    update() {
+    update(dt) {
         for (let i = 0; i < this.gameObjects.length; i++) {
-            this.gameObjects[i].update();
+            this.gameObjects[i].update(dt);
         }
     }
 
     removeGameObj(obj) {
-        const newObj = obj;
+        const newObj = {...obj};
         delete newObj.game;
         delete newObj.body.game;
         delete newObj.body.sprite;
         delete newObj.width;
         delete newObj.height;
-        delete newObj.halfWidth;
         delete newObj.halfHeight;
+        delete newObj.halfWidth;
+        delete newObj.socket;
         // const newObj = {
         //     ...obj,
         //     game: null,

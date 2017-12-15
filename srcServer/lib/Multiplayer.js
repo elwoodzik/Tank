@@ -5,10 +5,11 @@ import Rooms from './Rooms';
 
 class Multiplayer {
 
-    constructor(io) {
+    constructor(io, game) {
         this.socket = new Socket(this, io);
         this.users = new Users(this);
         this.rooms = new Rooms(this);
+        this.game  = game;
        // this.objs = new Objs(this);
 
         this.rooms.create.bind(this.socket)({ name: 'global', max: 0}, (err, room) => {

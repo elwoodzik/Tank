@@ -7,9 +7,9 @@ class _ObjectSettings {
 
         this.game = game;
 
-        //this.socket = options.socket || false;
+        this.socketId = options.socketId || false;
 
-        this.socketId = options.socket.id || false;
+        this.socket = options.socket || false;
         //this.pooled = options.pooled; 
 
         this.x = options.x === undefined ? 100 : options.x;
@@ -73,6 +73,8 @@ class _ObjectSettings {
     setContext(context) {
         const gameObjectLength = this.game.gameObjects.length;
         this.game.gameObjects[gameObjectLength] = this;
+        this.game.multiplayer.users.addObj(this, this.socketId);
+        const user =  this.game.multiplayer.users.findUserById(this.socketId);
     }
 
     setIndex(index) {

@@ -9,6 +9,8 @@ class Barrel extends Image {
         super(game, options);
         this.marginX = options.marginX || 0;
         this.marginY = options.marginY || 0;
+        this.x = this.x + this.marginX;
+        this.y = this.y + this.marginY;
         this.create();
     }
 

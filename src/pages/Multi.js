@@ -33,10 +33,6 @@ class Multi {
         })
 
         this.game.multiplayer.socket.emit('game start');
-
-
-
-
     }
 
     // update(dt) {

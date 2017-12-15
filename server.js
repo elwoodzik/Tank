@@ -13,10 +13,10 @@ import Game from './srcServer/Game';
 
 const server = express();
 
-mongoose.connect(config.mongodbUri, {
-    useMongoClient: true,
-    /* other options */
-});
+// mongoose.connect(config.mongodbUri, {
+//     useMongoClient: true,
+//     /* other options */
+// });
 
 process.env.NODE_ENV = 'production';
 

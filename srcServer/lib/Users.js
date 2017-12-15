@@ -1,18 +1,15 @@
 class Users {
     
         constructor(multiplayer) {
-            this.users = [];
+            this.users = {};
             this.multiplayer = multiplayer;
         }
     
         addNewUser(socket, callback) {
-            let user = {
+            this.users[socket.id] = {
                 id: socket.id,
-                //name: name,
-                //socket: socket,
-            };
-    
-            this.users.push(user);
+                objs: []
+            }
     
             this.multiplayer.rooms.join('global', socket, (err, room, sock) => {
                 if (err) {
@@ -26,11 +23,13 @@ class Users {
     
         removeUser(socket) {
             const id = socket.id;
-            const user = this.findUserById(id);
+            let user = this.findUserById(id);
 
             if (user) {
-                const index = this.users.indexOf(user);
-                this.users.splice(index, 1);
+               this.removeObjs(id);
+
+               delete this.users[id];
+              
                 this.multiplayer.rooms.leaveRoom(user, socket, (err) => {
                     if (err) {
                         console.error("\nWystąpił błąd przy probie disconnect\n");
@@ -50,14 +49,24 @@ class Users {
         }
     
         findUserById(id) {
-            for (let i = 0; i < this.users.length; i++) {
-                let user = this.users[i];
-    
-                if (user.id === id) {
-                    return user;
-                }
+            if(this.users[id]){
+                return this.users[id];
             }
-            return console.error('Nie znaleziono uzytkownika o id: ' + id);
+            console.error('Nie znaleziono uzytkownika o id: ' + id);
+            return false;
+        }
+
+        addObj(obj, socketId) {
+            const user = this.findUserById(socketId);
+            user.objs.push(obj);
+        }
+
+        removeObjs(socketId) {
+            this.multiplayer.game.gameObjects = this.multiplayer.game.gameObjects.filter((obj)=>{
+                if(obj.socketId !== socketId){
+                    return obj;
+                }
+            })
         }
     }
     

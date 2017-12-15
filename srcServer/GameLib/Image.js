@@ -20,13 +20,13 @@ class Image extends _ObjectSettings {
         this.useThereAndBack();
         this.moveToPointEasingHandler();
         this.moveToPointHandler();
-
+       
         if (this.body.velocity.x != 0 || this.body.velocity.y != 0) {
             this.x += (dt * this.body.velocity.x);
             this.y += (dt * this.body.velocity.y);
         }
         
-        this.game.multiplayer.socket.socket.emit('entity update', this.toEmit());
+        //this.game.multiplayer.socket.socket.emit('entity update', this.toEmit());
         //this.game.multiplayer.socket.emit('entity update');
     }
 

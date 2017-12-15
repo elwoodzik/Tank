@@ -4,8 +4,9 @@ class Tank extends Image {
 
     constructor(game, options) {
         super(game, options);
-
+        this.game = game;
         this.create();
+
     }
 
     create() {
@@ -17,6 +18,8 @@ class Tank extends Image {
         this.frictale = 2;
         this.lifeMax = 5;
         this.life = this.lifeMax;
+        console.log(this.game.multiplayer.socket)
+        this.game.multiplayer.socket.on('on move', this.onMove.bind(this));
     }
 
     draw(dt) {
@@ -30,7 +33,18 @@ class Tank extends Image {
     update(dt) {
         superUpdate.call(this, dt);
 
-        //this.move();
+        this.move2();
+    }
+
+    onMove(data){
+        this.x = data.x;
+        this.y = data.y;
+    }
+
+    move2() {
+        if (this.game.keyboard.trigger('W')) {
+            this.game.multiplayer.emit("on move", { type: 'W' });
+        }
     }
 
     move() {
